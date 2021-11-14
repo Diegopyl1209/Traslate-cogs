@@ -187,3 +187,87 @@ msgstr "No puedo editar este emoji"
 #, docstring
 msgid "Remove emoji from server"
 msgstr "Eliminar emoji del servidor"
+
+#: adminutils\adminutils.py:305
+#, docstring
+msgid "Manage channels"
+msgstr ""
+
+#: adminutils\adminutils.py:313
+#, docstring
+msgid "Create a channel"
+msgstr ""
+
+#: adminutils\adminutils.py:323
+#, docstring
+msgid ""
+"Create a text channel\n"
+"\n"
+"        You can create the channel under a category if passed, else it is created under no category\n"
+"        Use double quotes if category has spaces\n"
+"\n"
+"        Examples:\n"
+"            `[p]channel add text \"The Zoo\" awesome-channel` will create under the \"The Zoo\" category.\n"
+"            `[p]channel add text awesome-channel` will create under no category, at the top.\n"
+"        "
+msgstr ""
+
+#: adminutils\adminutils.py:339 adminutils\adminutils.py:369
+msgid "I can't create channel in this category"
+msgstr ""
+
+#: adminutils\adminutils.py:341 adminutils\adminutils.py:371
+msgid "I am unable to create a channel: {}"
+msgstr ""
+
+#: adminutils\adminutils.py:353
+#, docstring
+msgid ""
+"Create a voice channel\n"
+"\n"
+"        You can create the channel under a category if passed, else it is created under no category\n"
+"        Use double quotes if category has spaces\n"
+"\n"
+"        Examples:\n"
+"            `[p]channel add voice \"The Zoo\" Awesome Channel` will create under the \"The Zoo\" category.\n"
+"            `[p]channel add voice Awesome Channel` will create under no category, at the top.\n"
+"        "
+msgstr ""
+
+#: adminutils\adminutils.py:383
+#, docstring
+msgid ""
+"Rename a channel\n"
+"\n"
+"        Use double quotes if channel has spaces\n"
+"\n"
+"        Examples:\n"
+"            `[p]channel rename channel new-channel-name`\n"
+"        "
+msgstr ""
+
+#: adminutils\adminutils.py:394
+msgid "I can't rename this channel"
+msgstr ""
+
+#: adminutils\adminutils.py:396
+msgid "I am unable to rename this channel: {}"
+msgstr ""
+
+#: adminutils\adminutils.py:404
+#, docstring
+msgid ""
+"Remove a channel from server\n"
+"\n"
+"        Example:\n"
+"            `[p]channel delete channel`\n"
+"        "
+msgstr ""
+
+#: adminutils\adminutils.py:413
+msgid "I can't delete this channel"
+msgstr ""
+
+#: adminutils\adminutils.py:415
+msgid "I am unable to delete a channel: {}"
+msgstr ""
