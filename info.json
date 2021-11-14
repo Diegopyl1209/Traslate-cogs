@@ -1,0 +1,9 @@
+{
+    "author" : ["DiegoPYL"],
+    "install_msg" : "Repo en donde guardo todos los cogs que tradusco.",
+    "name" : "Diego-cogs",
+    "short" : "cogs?",
+    "description" : "nada de nada",
+    "min_python_version": [3, 7, 2],
+	"tags": []
+}
