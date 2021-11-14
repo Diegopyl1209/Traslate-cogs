@@ -42,7 +42,7 @@ Incluyendo miembros en roles: {}\n"
 #: adminutils\adminutils.py:67
 msgid "You about to kick **{to_kick}** inactive for **{days}** days members from this server. {roles}Are you sure?\n"
 "To agree, type \"yes\""
-msgstr "Estás a punto de expulsar a **{to_kick}** Inactivo para **{days}** días miembros de este servidor. {roles}Estas seguro?\n
+msgstr "Estás a punto de expulsar a **{to_kick}** Inactivo para **{days}** días miembros de este servidor. {roles}Estas seguro?\n"
 "Para aceptar, Escribe \"yes\""
 
 #: adminutils\adminutils.py:83
