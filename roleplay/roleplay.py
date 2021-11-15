@@ -70,7 +70,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def baka(self, ctx: Context, *, member: discord.Member):
-        """Call someone a BAKA with a GIF reaction!"""
+        """llama a alguien BAKA con una reaccion en GIF!"""
         if member.id == ctx.me.id:
             return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
@@ -90,8 +90,8 @@ class Roleplay(commands.Cog):
         message = f"_**{ctx.author.name}** le dijo a {member.mention} BAKA bahahahahaha!!!_"
         embed.set_image(url=choice(BAKA))
         footer = (
-            f"{ctx.author.name} used baka: {baka_to + 1} times so far.\n"
-            + f"{member.name} got called a BAKA: {baka_from + 1} times  so far."
+            f"{ctx.author.name} uso BAKA: {baka_to + 1} veces hasta ahora.\n"
+            + f"{member.name} fue llamado BAKA: {baka_from + 1} veces hasta ahora."
         )
         embed.set_footer(text=footer)
 
@@ -102,7 +102,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 60, commands.BucketType.member)
     async def bully(self, ctx: Context, *, member: discord.Member):
-        """Bully someone in this server with a funny GIF!"""
+        """Intimidar a alguien en este servidor con un GIF divertido!"""
         if member.id == ctx.me.id:
             return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
@@ -136,7 +136,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def cry(self, ctx: Context):
-        """Let others know that you feel like crying or just wanna cry."""
+        """Hazles saber a los demás que tienes ganas de llorar o que solo quieres llorar."""
         await ctx.trigger_typing()
         cry_count = await self.config.member(ctx.author).CRY_COUNT()
         gcry_count = await self.config.user(ctx.author).CRY_COUNT()
@@ -155,7 +155,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def cuddle(self, ctx: Context, *, member: discord.Member):
-        """Cuddle with a server member!"""
+        """Acurrucarse con un miembro del servidor!"""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"{ctx.author.mention} De acuerdo con todas las leyes conocidas del juego de roles, "
@@ -192,7 +192,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def feed(self, ctx: Context, *, member: discord.Member):
-        """Feed someone from this server virtually!"""
+        """Alimente a alguien de este servidor virtualmente!"""
         if member.id == ctx.author.id:
             return await ctx.send(f"_{ctx.author.mention} come {bold(choice(RECIPES))}!_")
 
@@ -225,7 +225,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def highfive(self, ctx: Context, *, member: discord.Member):
-        """High-fives a user!"""
+        """Choca los cinco con un usuario!"""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"_{ctx.author.mention} chocar los cinco en el espejo, supongo?_"
@@ -261,7 +261,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def hug(self, ctx: Context, *, member: discord.Member):
-        """Hug a user virtually on Discord!"""
+        """Abraza a un usuario virtualmente en Discord!"""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"{ctx.author.mention} UnO nO PuEdE AbRaZarCe A sI MiSmO!!!!!"
@@ -296,7 +296,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 60, commands.BucketType.member)
     async def kill(self, ctx: Context, *, member: discord.Member):
-        """Virtually attempt to kill a server member with a GIF reaction!"""
+        """Intente prácticamente matar a un miembro del servidor con una reacción GIF!"""
         if member.id == ctx.me.id:
             return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
@@ -329,7 +329,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def kiss(self, ctx: Context, *, member: discord.Member):
-        """[NSFW] Kiss a user! Only allowed in NSFW channel."""
+        """[NSFW] ¡Besa a un usuario! Solo permitido en el canal NSFW."""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"Poggers {bold(ctx.author.name)}, te acabas de besar! LOL!!! 💋"
@@ -364,7 +364,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def lick(self, ctx: Context, *, member: discord.Member):
-        """[NSFW] Lick a user! Only allowed in NSFW channel."""
+        """[NSFW] ¡Lame a un usuario! Solo permitido en el canal NSFW."""
         if member.id == ctx.me.id:
             return await ctx.send(
                 f"{ctx.author.mention} ¿Quieres lamer un bot? Muy cachonda! Toma, lame esto: 🍆"
@@ -399,7 +399,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def nom(self, ctx: Context, *, member: discord.Member):
-        """Try to nom/bite a server member!"""
+        """Intenta morder a un miembro del servidor!"""
         if member.id == ctx.me.id:
             return await ctx.send(f"**OH NO!** _Huye_")
 
@@ -432,7 +432,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def pat(self, ctx: Context, *, member: discord.Member):
-        """Pat a server member with wholesome GIF!"""
+        """Acaricia a un miembro del servidor con un GIF saludable!"""
         if member.id == ctx.author.id:
             return await ctx.send(f"{ctx.author.mention} _se dan palmaditas, supongo? **yay**_ 🎉")
 
@@ -466,7 +466,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def poke(self, ctx: Context, *, member: discord.Member):
-        """Poke your Discord friends or strangers!"""
+        """¡Molesta a tus amigos o extraños de Discord!"""
         if member.id == ctx.author.id:
             return await ctx.send(f"{bold(ctx.author.name)} quiere molestarse a sí mismo eh?!")
 
@@ -500,7 +500,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def punch(self, ctx: Context, *, member: discord.Member):
-        """Punch someone on Discord with a GIF reaction!"""
+        """Golpea a alguien en Discord con una reacción GIF!"""
         if member.id == ctx.me.id:
             message = (
                 f"{ctx.author.mention} trató de golpear a un bot pero falló miserablemente,\n"
@@ -542,7 +542,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def slap(self, ctx: Context, *, member: discord.Member):
-        """Slap a server member!"""
+        """Abofetear a un miembro del servidor!"""
         if member.id == ctx.me.id:
             return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
@@ -574,7 +574,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def smug(self, ctx: Context):
-        """Show everyone your smug face!"""
+        """Muestra a todos tu cara de presumido!"""
         message = f"_**{ctx.author.name}** se enorgullece de **@\u200balgo**_ 😏"
         await ctx.trigger_typing()
         smug_count = await self.config.member(ctx.author).SMUG_COUNT()
@@ -593,7 +593,7 @@ class Roleplay(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def tickle(self, ctx: Context, *, member: discord.Member):
-        """Try to tickle a server member!"""
+        """Intenta hacerle cosquillas a un miembro del servidor!"""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"{ctx.author.mention} Hacerse cosquillas uno mismo es aburrido!"

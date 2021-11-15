@@ -882,11 +882,11 @@ CRY = [
     "https://cdn.weeb.sh/images/Sk5a01cyf.gif",
 ]
 CRY_STRINGS = [
-    "cries profusely... 😖",
-    "suddenly starts crying... 😢",
-    "feels like they wanna cry their heart out! 😭",
-    "is crying ... :c 😿",
-    "criiiiiiiiiiiiies nuuuuuuuuuuuu someone give them a warm hug pls! 😭",
+    "llora profusamente ... 😖",
+    "de repente empieza a llorar ... 😢",
+    "¡sienten que quieren llorar con todo su corazón! 😭",
+    "está llorando ...: c 😿",
+    "¡ que alguien les dé un cálido abrazo por favor! 😭",
 ]
 PUNCH = [
     "https://media1.tenor.com/images/31686440e805309d34e94219e4bedac1/tenor.gif",
