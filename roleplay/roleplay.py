@@ -1,498 +1,626 @@
+from random import choice
+
 import discord
-from redbot.core import commands, Config
-from random import randint
-import aiohttp
-import logging
+from redbot.core import Config, commands
+from redbot.core.bot import Red
+from redbot.core.commands import Context
+from redbot.core.utils.chat_formatting import bold, quote
 
-log = logging.getLogger("Roleplay")  # Thanks to Sinbad for the example code for logging
-log.setLevel(logging.DEBUG)
-
-console = logging.StreamHandler()
-
-if logging.getLogger("red").isEnabledFor(logging.DEBUG):
-    console.setLevel(logging.DEBUG)
-else:
-    console.setLevel(logging.INFO)
-log.addHandler(console)
-
-BaseCog = getattr(commands, "Cog", object)
+from .constants import *
 
 
-class Roleplay(BaseCog):
-    """Interact with people!"""
+class Roleplay(commands.Cog):
+    """Do roleplay with your Discord friends or virtual strangers."""
 
-    def __init__(self):
-        self.config = Config.get_conf(self, identifier=842364413)
-        default_global = {
-            "hugs": [
-                "https://safebooru.org//images/1174/5ebeacd87b22a0c5949ecb875667ae75702c2fed.gif",
-                "https://safebooru.org//images/848/4828fc43e39f52abd5bac6b299e822ae02786974.gif",
-                "https://safebooru.org//images/160/ba09bc95bc05b4f47af22671950e66f085c7ea9e.gif",
-                "https://cdn.weeb.sh/images/rJaog0FtZ.gif",
-                "https://cdn.weeb.sh/images/Hyv6uOQPZ.gif",
-                "https://cdn.weeb.sh/images/BJx2l0ttW.gif",
-                "https://media.giphy.com/media/iviBUyNqP46Aw/giphy.gif",
-                "https://media.giphy.com/media/wnsgren9NtITS/giphy.gif",
-                "https://media.giphy.com/media/svXXBgduBsJ1u/giphy.gif",
-                "https://media.giphy.com/media/3ZnBrkqoaI2hq/giphy.gif",
-                "https://media.giphy.com/media/3o6ZsTopjMRVkJXAWI/giphy.gif",
-                "https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif",
-                "https://media.giphy.com/media/vVA8U5NnXpMXK/giphy.gif",
-                "https://media.giphy.com/media/aVmEsdMmCTqSs/giphy.gif",
-                "https://media.giphy.com/media/ZQN9jsRWp1M76/giphy.gif",
-                "https://media.giphy.com/media/DjczAlIcyK1Co/giphy.gif",
-                "https://media.giphy.com/media/ba92ty7qnNcXu/giphy.gif",
-                "https://media.giphy.com/media/C4gbG94zAjyYE/giphy.gif",
-                "https://i.imgur.com/4Y50gzE.gif",
-                "https://i.imgur.com/OrpyAfa.gif",
-                "https://i.imgur.com/aA8mTuX.gif",
-                "https://i.imgur.com/fm9PHyr.gif",
-                "https://i.imgur.com/tCuAWNW.gif",
-                "https://i.imgur.com/BPMTcq7.gif",
-                "https://i.imgur.com/V1fd9oP.gif",
-                "https://i.imgur.com/OSDidQJ.gif",
-                "https://i.imgur.com/hM1LcZf.gif",
-                "https://i.imgur.com/cRfX87T.gif",
-                "https://cdn.weeb.sh/images/HyNJIaVCb.gif",
-                "https://cdn.weeb.sh/images/ryMqdOXvZ.gif",
-                "https://cdn.weeb.sh/images/Hk4qu_XvZ.gif",
-                "https://cdn.weeb.sh/images/ByuHsvu8z.gif",
-                "https://cdn.weeb.sh/images/Hy4hxRKtW.gif",
-                "https://cdn.weeb.sh/images/Sk2gmRZZG.gif",
-                "https://cdn.weeb.sh/images/HkfgF_QvW.gif",
-                "https://cdn.weeb.sh/images/HJTWcTNCZ.gif",
-                "https://cdn.weeb.sh/images/rko9O_mwW.gif",
-                "https://cdn.weeb.sh/images/rkx1dJ25z.gif",
-                "https://media.giphy.com/media/KMQoRt68bFei4/giphy.gif",
-                "https://cdn.weeb.sh/images/BkZngAYtb.gif",
-            ],
-            "cuddle": [
-                "https://cdn.weeb.sh/images/BkTe8U7v-.gif",
-                "https://cdn.weeb.sh/images/SykzL87D-.gif",
-                "https://cdn.weeb.sh/images/BywGX8caZ.gif",
-                "https://cdn.weeb.sh/images/SJceIU7wZ.gif",
-                "https://cdn.weeb.sh/images/SJn18IXP-.gif",
-                "https://cdn.weeb.sh/images/B1Qb88XvW.gif",
-                "https://cdn.weeb.sh/images/r1XEOymib.gif",
-                "https://cdn.weeb.sh/images/SJLkLImPb.gif",
-                "https://cdn.weeb.sh/images/SyUYOJ7iZ.gif",
-                "https://cdn.weeb.sh/images/rkBl8LmDZ.gif",
-                "https://cdn.weeb.sh/images/B1S1I87vZ.gif",
-                "https://cdn.weeb.sh/images/r1s9RqB7G.gif",
-                "https://cdn.weeb.sh/images/Hy5y88mPb.gif",
-                "https://cdn.weeb.sh/images/rkA6SU7w-.gif",
-                "https://cdn.weeb.sh/images/r1A77CZbz.gif",
-                "https://cdn.weeb.sh/images/SJYxIUmD-.gif",
-                "https://cdn.weeb.sh/images/H1SfI8XwW.gif",
-                "https://cdn.weeb.sh/images/rJCAH8XPb.gif",
-                "https://cdn.weeb.sh/images/By03IkXsZ.gif",
-                "https://cdn.weeb.sh/images/ryfyLL7D-.gif",
-                "https://cdn.weeb.sh/images/BJwpw_XLM.gif",
-                "https://cdn.weeb.sh/images/r1VzDkmjW.gif",
-                "https://cdn.weeb.sh/images/HkzArUmvZ.gif",
-                "https://cdn.weeb.sh/images/r1A77CZbz.gif",
-            ],
-            "kiss": [
-                "https://i.imgur.com/WYkVxW2.gif",
-                "https://i.imgur.com/xu104Xp.gif",
-                "https://i.imgur.com/8jcpBO7.gif",
-                "https://i.imgur.com/jmWGYh5.gif",
-                "https://i.imgur.com/Sg8Obai.gif",
-                "https://i.imgur.com/Pr06rra.gif",
-                "https://i.imgur.com/J8xgNpE.gif",
-                "https://i.imgur.com/gtIEfcS.gif",
-                "https://i.imgur.com/j3zdC5g.gif",
-                "https://cdn.weeb.sh/images/r1cB3aOwW.gif",
-                "https://cdn.weeb.sh/images/B1MJ2aODb.gif",
-                "https://cdn.weeb.sh/images/Hy-oQl91z.gif",
-                "https://cdn.weeb.sh/images/rJ6PWohA-.gif",
-                "https://cdn.weeb.sh/images/rJrCj6_w-.gif",
-                "https://78.media.tumblr.com/7255f36b2c31fac77542e8fe6837b408/tumblr_mokq94dAXR1s05qslo1_500.gif",
-            ],
-            "slap": [
-                "https://cdn.weeb.sh/images/H16aQJFvb.gif",
-                "https://safebooru.org//images/192/fb1c45872a172ab384a22b9d9089b861d366564c.gif",
-                "https://safebooru.org//images/118/968c5b9f042a5262c8c8628cd52a7a6a557e525d.gif",
-                "https://media1.tenor.com/images/d14969a21a96ec46f61770c50fccf24f/tenor.gif?itemid=5509136",
-                "https://media1.tenor.com/images/9ea4fb41d066737c0e3f2d626c13f230/tenor.gif?itemid=7355956",
-                "https://media1.tenor.com/images/4a6b15b8d111255c77da57c735c79b44/tenor.gif?itemid=10937039",
-                "https://media1.tenor.com/images/153b2f1bfd3c595c920ce60f1553c5f7/tenor.gif?itemid=10936993",
-                "https://media1.tenor.com/images/4fa82be21ffd18c99a9708ba209d56ad/tenor.gif?itemid=5318916",
-                "https://media1.tenor.com/images/1ba1ea1786f0b03912b1c9138dac707c/tenor.gif?itemid=5738394",
-                "https://i.imgur.com/EO8udG1.gif",
-                "https://i.imgur.com/lMmn1wy.gif",
-                "https://i.imgur.com/TuSUTg5.gif",
-                "https://i.imgur.com/9Ql97mO.gif",
-                "https://i.imgur.com/VBGqeIU.gif",
-                "https://i.imgur.com/uPZwGFQ.gif",
-                "https://i.imgur.com/Su0X9iF.gif",
-                "https://i.imgur.com/eNiOIMB.gif",
-                "https://i.imgur.com/gsAGyoI.gif",
-                "https://cdn.weeb.sh/images/HyPjmytDW.gif",
-                "https://cdn.weeb.sh/images/BJ8o71tD-.gif",
-                "https://cdn.weeb.sh/images/BJLCX1Kw-.gif",
-                "https://cdn.weeb.sh/images/rJvR71KPb.gif",
-                "https://cdn.weeb.sh/images/SkZTQkKPZ.gif",
-                "https://cdn.weeb.sh/images/Hkw1VkYP-.gif",
-                "https://cdn.weeb.sh/images/BkxEo7ytDb.gif",
-                "https://cdn.weeb.sh/images/B1fnQyKDW.gif",
-                "https://cdn.weeb.sh/images/Bkj-oaV0Z.gif",
-                "https://cdn.weeb.sh/images/r1siXJKw-.gif",
-                "https://cdn.weeb.sh/images/r1VF-lcyz.gif",
-                "https://cdn.weeb.sh/images/BJgsX1Kv-.gif",
-                "https://cdn.weeb.sh/images/SkKn-xc1f.gif",
-                "https://cdn.weeb.sh/images/Sk9mfCtY-.gif",
-                "https://cdn.weeb.sh/images/ry_RQkYDb.gif",
-                "https://cdn.weeb.sh/images/HkK2mkYPZ.gif",
-                "https://cdn.weeb.sh/images/S1ylxxc1M.gif",
-                "https://cdn.weeb.sh/images/SJdXoVguf.gif",
-                "https://cdn.weeb.sh/images/ByHUMRNR-.gif",
-                "https://cdn.weeb.sh/images/SkdyfWCSf.gif",
-                "https://cdn.weeb.sh/images/rknn7Jtv-.gif",
-                "https://cdn.weeb.sh/images/rJgTQ1tvb.gif",
-                "https://cdn.weeb.sh/images/rkaqm1twZ.gif",
-                "https://cdn.weeb.sh/images/ryn_Zg5JG.gif",
-                "https://cdn.weeb.sh/images/SJ-CQytvW.gif",
-            ],
-            "pat": [
-                "https://cdn.weeb.sh/images/r180y1Yvb.gif",
-                "http://i.imgur.com/10VrpFZ.gif",
-                "http://i.imgur.com/x0u35IU.gif",
-                "http://i.imgur.com/0gTbTNR.gif",
-                "http://i.imgur.com/hlLCiAt.gif",
-                "http://i.imgur.com/sAANBDj.gif",
-                "https://i.imgur.com/10VrpFZ.gif",
-                "https://i.imgur.com/x0u35IU.gif",
-                "https://i.imgur.com/sAANBDj.gif",
-                "https://i.imgur.com/wtxwpm1.gif",
-                "https://i.imgur.com/3eR7weH.gif",
-                "https://i.imgur.com/cK8Ro3x.gif",
-                "https://i.imgur.com/qtHlt3n.gif",
-                "https://i.imgur.com/bzzodCZ.gif",
-                "https://cdn.weeb.sh/images/r180y1Yvb.gif",
-                "https://cdn.weeb.sh/images/Sky1x1YwW.gif",
-                "https://cdn.weeb.sh/images/r1Y5L6NCZ.gif",
-                "https://cdn.weeb.sh/images/HJGQlJYwb.gif",
-                "https://cdn.weeb.sh/images/rkBZkRttW.gif",
-                "https://cdn.weeb.sh/images/rJavp1KVM.gif",
-                "https://cdn.weeb.sh/images/r1AsJ1twZ.gif",
-                "https://cdn.weeb.sh/images/ry1tlj2AW.gif",
-                "https://cdn.weeb.sh/images/HyqTkyFvb.gif",
-                "https://cdn.weeb.sh/images/H1jnJktPb.gif",
-                "https://cdn.weeb.sh/images/ryLKqTVCW.gif",
-                "https://cdn.weeb.sh/images/rJJXgJFDW.gif",
-                "https://i.imgur.com/grAHcaB.gif",
-                "https://cdn.weeb.sh/images/SJS1lyYwW.gif",
-                "https://cdn.weeb.sh/images/rkbblkYvb.gif",
-                "https://cdn.weeb.sh/images/H1s5hx0Bf.gif",
-                "https://cdn.weeb.sh/images/rkSN7g91M.gif",
-                "https://cdn.weeb.sh/images/rktsca40-.gif",
-                "https://cdn.weeb.sh/images/ryh6x04Rb.gif",
-                "https://cdn.weeb.sh/images/rkTC896_f.gif",
-                "https://cdn.weeb.sh/images/SJudB96_f.gif",
-                "https://cdn.weeb.sh/images/SJudB96_f.gif",
-                "https://cdn.weeb.sh/images/r1lVQgcyG.gif",
-            ],
-            "lick": [
-                "https://media1.tenor.com/images/c4f68fbbec3c96193386e5fcc5429b89/tenor.gif?itemid=13451325",
-                "https://media1.tenor.com/images/ec2ca0bf12d7b1a30fea702b59e5a7fa/tenor.gif?itemid=13417195",
-                "https://cdn.weeb.sh/images/HkEqiExdf.gif",
-                "https://media1.tenor.com/images/5f73f2a7b302a3800b3613095f8a5c40/tenor.gif?itemid=10005495",
-                "https://media1.tenor.com/images/6b701503b0e5ea725b0b3fdf6824d390/tenor.gif?itemid=12141727",
-                "https://media1.tenor.com/images/069076cc8054bb8b114c5a37eec70a1f/tenor.gif?itemid=13248504",
-                "https://media1.tenor.com/images/fc0ef2ba03d82af0cbd6c5815c3c83d5/tenor.gif?itemid=12141725",
-                "https://media1.tenor.com/images/d702fa41028207c6523b831ec2db9467/tenor.gif?itemid=5990650",
-                "https://media1.tenor.com/images/81769ee6622b5396d1489fb4667fd20a/tenor.gif?itemid=14376074",
-                "https://media1.tenor.com/images/feeef4685f9307b76c78a22ba0a69f48/tenor.gif?itemid=8413059",
-                "https://media1.tenor.com/images/efd46743771a78e493e66b5d26cd2af1/tenor.gif?itemid=14002773",
-            ],
-            "highfive": [
-                "https://media1.tenor.com/images/0ae4995e4eb27e427454526c05b2e3dd/tenor.gif?itemid=12376992",
-                "https://media1.tenor.com/images/7b1f06eac73c36721912edcaacddf666/tenor.gif?itemid=10559431",
-                "https://media1.tenor.com/images/c3263b8196afc25ddc1d53a4224347cd/tenor.gif?itemid=9443275",
-                "https://media1.tenor.com/images/56d6725009312574e4798c732cebc5fe/tenor.gif?itemid=12312526",
-                "https://media1.tenor.com/images/e96d2396570a2fadd9c83e284a1ca675/tenor.gif?itemid=5390726",
-                "https://media1.tenor.com/images/106c8e64e864230341b59cc892b5a980/tenor.gif?itemid=5682921",
-                "https://media1.tenor.com/images/b714d7680f8b49d69b07bc2f1e052e72/tenor.gif?itemid=13400356",
-                "https://media1.tenor.com/images/0c23b320822afd5b1ce3faf01c2b9b69/tenor.gif?itemid=14137078",
-                "https://media1.tenor.com/images/e2f299d05a7b1832314ec7a331440d4e/tenor.gif?itemid=5374033",
-                "https://media1.tenor.com/images/16267f3a34efb42598bd822effaccd11/tenor.gif?itemid=14137081",
-                "https://media1.tenor.com/images/9730876547cb3939388cf79b8a641da9/tenor.gif?itemid=8073516",
-                "https://media1.tenor.com/images/ce85a2843f52309b85515f56a0a49d06/tenor.gif?itemid=14137077",
-            ],
-            "feed": [
-                "https://media1.tenor.com/images/93c4833dbcfd5be9401afbda220066ee/tenor.gif?itemid=11223742",
-                "https://media1.tenor.com/images/33cfd292d4ef5e2dc533ff73a102c2e6/tenor.gif?itemid=12165913",
-                "https://media1.tenor.com/images/72268391ffde3cd976a456ee2a033f46/tenor.gif?itemid=7589062",
-                "https://media1.tenor.com/images/4b48975ec500f8326c5db6b178a91a3a/tenor.gif?itemid=12593977",
-                "https://media1.tenor.com/images/187ff5bc3a5628b6906935232898c200/tenor.gif?itemid=9340097",
-                "https://media1.tenor.com/images/15e7d9e1eb0aad2852fabda1210aee95/tenor.gif?itemid=12005286",
-                "https://media1.tenor.com/images/d08d0825019c321f21293c35df8ed6a9/tenor.gif?itemid=9032297",
-                "https://media1.tenor.com/images/571da4da1ad526afe744423f7581a452/tenor.gif?itemid=11658244",
-                "https://media1.tenor.com/images/6bde17caa5743a22686e5f7b6e3e23b4/tenor.gif?itemid=13726430",
-                "https://media1.tenor.com/images/fd3616d34ade61e1ac5cd0975c25a917/tenor.gif?itemid=13653906",
-                "https://imgur.com/v7jsPrv",
-            ],
-            "tickle": [
-                "https://media1.tenor.com/images/02f62186ccb7fa8a2667f3216cfd7e13/tenor.gif?itemid=13269751",
-                "https://media1.tenor.com/images/d38554c6e23b86c81f8d4a3764b38912/tenor.gif?itemid=11379131",
-                "https://media1.tenor.com/images/05a64a05e5501be2b1a5a734998ad2b2/tenor.gif?itemid=11379130",
-            ],
-            "poke": [
-                "https://media1.tenor.com/images/3b2bfd09965bd77f2a8cb9ba59cedbe4/tenor.gif?itemid=5607667",
-                "https://media1.tenor.com/images/514efe749cb611eb382713596e3427d8/tenor.gif?itemid=13054528",
-                "https://media1.tenor.com/images/8795ff617de989265907eed8029a99a3/tenor.gif?itemid=14629871",
-                "https://media1.tenor.com/images/1e0ea8b241a7db2b9c03775133138733/tenor.gif?itemid=10064326",
-                "https://media1.tenor.com/images/90f68d48795c51222c60afc7239c930c/tenor.gif?itemid=8701034",
-                "https://media1.tenor.com/images/01b264dc057eff2d0ee6869e9ed514c1/tenor.gif?itemid=14346763",
-                "https://media1.tenor.com/images/f8a48a25f47d5d12342705c7c87368bb/tenor.gif?itemid=14134415",
-                "https://media.tenor.com/images/6b5c1554a6ee9d48ab0392603bab8a8e/tenor.gif",
-            ],
-            "smug": [
-                "https://cdn.nekos.life/v3/sfw/gif/smug/smug_027.gif",
-                "https://cdn.nekos.life/v3/sfw/gif/smug/smug_057.gif",
-                "https://i.kym-cdn.com/photos/images/original/001/087/562/93c.gif",
-                "https://i.kym-cdn.com/photos/images/newsfeed/001/161/167/eda.gif",
-                "https://media1.tenor.com/images/d9b3127da3f9419cbb28f9f7c00860d8/tenor.gif?itemid=9588226",
-                "https://media1.tenor.com/images/0097fa7f957477f9edc5ff147bb9a5ad/tenor.gif?itemid=12390496",
-            ],
+    __author__ = "ow0x"
+    __version__ = "1.0.3"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthor: {self.__author__}\nCog Version: {self.__version__}"
+
+    def __init__(self, bot: Red):
+        self.bot = bot
+        self.config = Config.get_conf(self, 123456789987654321, force_registration=True)
+        default_global = {"schema_version": 1}
+        default_user = {
+            "BAKAS_SENT": 0,
+            "BAKAS_RECEIVED": 0,
+            "BULLY_SENT": 0,
+            "BULLY_RECEIVED": 0,
+            "CUDDLES_SENT": 0,
+            "CUDDLES_RECEIVED": 0,
+            "CRY_COUNT": 0,
+            "FEEDS_SENT": 0,
+            "FEEDS_RECEIVED": 0,
+            "HIGHFIVES_SENT": 0,
+            "HIGHFIVES_RECEIVED": 0,
+            "HUGS_SENT": 0,
+            "HUGS_RECEIVED": 0,
+            "KILLS_SENT": 0,
+            "KILLS_RECEIVED": 0,
+            "KISSES_SENT": 0,
+            "KISSES_RECEIVED": 0,
+            "LICKS_SENT": 0,
+            "LICKS_RECEIVED": 0,
+            "NOMS_SENT": 0,
+            "NOMS_RECEIVED": 0,
+            "PATS_SENT": 0,
+            "PATS_RECEIVED": 0,
+            "POKES_SENT": 0,
+            "POKES_RECEIVED": 0,
+            "PUNCHES_SENT": 0,
+            "PUNCHES_RECEIVED": 0,
+            "SLAPS_SENT": 0,
+            "SLAPS_RECEIVED": 0,
+            "SMUG_COUNT": 0,
+            "TICKLES_SENT": 0,
+            "TICKLES_RECEIVED": 0,
         }
         self.config.register_global(**default_global)
+        self.config.register_member(**default_user)
+        self.config.register_user(**default_user)
+        # TODO: you can do better
+        if self.bot.get_cog("General"):
+            self.bot.remove_command("hug")
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def baka(self, ctx: Context, *, member: discord.Member):
+        """Call someone a BAKA with a GIF reaction!"""
+        if member.id == ctx.me.id:
+            return await ctx.send("**Ｎ Ｏ   Ｕ**")
+
+        if member.id == ctx.author.id:
+            return await ctx.send(f"{bold(ctx.author.name)}, you really are BAKA. Stupid!! 💩")
+
+        await ctx.trigger_typing()
+        baka_to = await self.config.member(ctx.author).BAKAS_SENT()
+        baka_from = await self.config.member(member).BAKAS_RECEIVED()
+        gbaka_to = await self.config.user(ctx.author).BAKAS_SENT()
+        gbaka_from = await self.config.user(member).BAKAS_RECEIVED()
+        await self.config.member(ctx.author).BAKAS_SENT.set(baka_to + 1)
+        await self.config.member(member).BAKAS_RECEIVED.set(baka_from + 1)
+        await self.config.user(ctx.author).BAKAS_SENT.set(gbaka_to + 1)
+        await self.config.user(member).BAKAS_RECEIVED.set(gbaka_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = f"_**{ctx.author.name}** le dijo a {member.mention} BAKA bahahahahaha!!!_"
+        embed.set_image(url=choice(BAKA))
+        footer = (
+            f"{ctx.author.name} used baka: {baka_to + 1} times so far.\n"
+            + f"{member.name} got called a BAKA: {baka_from + 1} times  so far."
+        )
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 60, commands.BucketType.member)
+    async def bully(self, ctx: Context, *, member: discord.Member):
+        """Bully someone in this server with a funny GIF!"""
+        if member.id == ctx.me.id:
+            return await ctx.send("**Ｎ Ｏ   Ｕ**")
+
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"{ctx.author.mention} El auto-bullying no tiene sentido. Detente, busca ayuda."
+            )
+
+        await ctx.trigger_typing()
+        bully_to = await self.config.member(ctx.author).BULLY_SENT()
+        bully_from = await self.config.member(member).BULLY_RECEIVED()
+        gbully_to = await self.config.user(ctx.author).BULLY_SENT()
+        gbully_from = await self.config.user(member).BULLY_RECEIVED()
+        await self.config.member(ctx.author).BULLY_SENT.set(bully_to + 1)
+        await self.config.member(member).BULLY_RECEIVED.set(bully_from + 1)
+        await self.config.user(ctx.author).BULLY_SENT.set(gbully_to + 1)
+        await self.config.user(member).BULLY_RECEIVED.set(gbully_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = f"_**{ctx.author.name}** bullies {member.mention}_ 🤡"
+        embed.set_image(url=choice(BULLY))
+        footer = (
+            f"{ctx.author.name} intimidado: {bully_to + 1} veces hasta ahora a.\n{member.name} "
+            + f"fue intimidado: {bully_from + 1} veces hasta ahora.\n"
+            + f"Alguien llame a la policía para arrestar a {ctx.author.name}."
+        )
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-    async def hugs(self, ctx, *, user: discord.Member):
-        """Hugs a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def cry(self, ctx: Context):
+        """Let others know that you feel like crying or just wanna cry."""
+        await ctx.trigger_typing()
+        cry_count = await self.config.member(ctx.author).CRY_COUNT()
+        gcry_count = await self.config.user(ctx.author).CRY_COUNT()
+        await self.config.member(ctx.author).CRY_COUNT.set(cry_count + 1)
+        await self.config.user(ctx.author).CRY_COUNT.set(gcry_count + 1)
+        embed = discord.Embed(colour=ctx.author.colour)
+        embed.description = f"{ctx.author.mention} {choice(CRY_STRINGS)}"
+        embed.set_image(url=choice(CRY))
+        footer = f"{ctx.author.name} ha llorado {cry_count + 1} veces en este servidor hasta ahora."
+        embed.set_footer(text=footer)
 
-        author = ctx.message.author
-        images = await self.config.hugs()
-
-        nekos = await self.fetch_nekos_life(ctx, "hug")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} abrazo a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
         await ctx.send(embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def cuddle(self, ctx, *, user: discord.Member):
-        """Cuddles a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def cuddle(self, ctx: Context, *, member: discord.Member):
+        """Cuddle with a server member!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"{ctx.author.mention} De acuerdo con todas las leyes conocidas del juego de roles, "
+                + "¡No hay forma de que puedas abrazarte! vete a abrazar con "
+                + "alguien... O una almohada, si estás solo como yo.. 😔"
+            )
 
-        author = ctx.message.author
-        images = await self.config.cuddle()
+        await ctx.trigger_typing()
+        cuddle_to = await self.config.member(ctx.author).CUDDLES_SENT()
+        cuddle_from = await self.config.member(member).CUDDLES_RECEIVED()
+        gcuddle_to = await self.config.user(ctx.author).CUDDLES_SENT()
+        gcuddle_from = await self.config.user(member).CUDDLES_RECEIVED()
+        await self.config.member(ctx.author).CUDDLES_SENT.set(cuddle_to + 1)
+        await self.config.member(member).CUDDLES_RECEIVED.set(cuddle_from + 1)
+        await self.config.user(ctx.author).CUDDLES_SENT.set(gcuddle_to + 1)
+        await self.config.user(member).CUDDLES_RECEIVED.set(gcuddle_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"Awww gracias por los abrazos, {bold(ctx.author.name)}! Muy amable de su parte. 😳"
+        else:
+            message = f"_**{ctx.author.name}** mimos_ {member.mention}"
+        embed.set_image(url=str(choice(CUDDLE)))
+        footer = (
+            f"{ctx.author.name} envio: {cuddle_to + 1} abrazos hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recivio: {cuddle_from + 1} abrazos hasta ahora."
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "cuddle")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} abrazo a {user.mention} **"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def kiss(self, ctx, *, user: discord.Member):
-        """Kiss a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def feed(self, ctx: Context, *, member: discord.Member):
+        """Feed someone from this server virtually!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(f"_{ctx.author.mention} come {bold(choice(RECIPES))}!_")
 
-        author = ctx.message.author
-        images = await self.config.kiss()
+        await ctx.trigger_typing()
+        feed_to = await self.config.member(ctx.author).FEEDS_SENT()
+        feed_from = await self.config.member(member).FEEDS_RECEIVED()
+        gfeed_to = await self.config.user(ctx.author).FEEDS_SENT()
+        gfeed_from = await self.config.user(member).FEEDS_RECEIVED()
+        await self.config.member(ctx.author).FEEDS_SENT.set(feed_to + 1)
+        await self.config.member(member).FEEDS_RECEIVED.set(feed_from + 1)
+        await self.config.user(ctx.author).FEEDS_SENT.set(gfeed_to + 1)
+        await self.config.user(member).FEEDS_RECEIVED.set(gfeed_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"OWO! Gracias por la deliciosa comida..., {bold(ctx.author.name)}! ❤️"
+        else:
+            message = f"_**{ctx.author.name}** alimenta a {member.mention} con algo de comida deliciosa!_"
+        embed.set_image(url=choice(FEED))
+        footer = (
+            f"{ctx.author.name} a alimentado a otros: {feed_to + 1} veces hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recibió algo de comida: {feed_from + 1} veces hasta ahora."
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "kiss")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} beso a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def slap(self, ctx, *, user: discord.Member):
-        """Slaps a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def highfive(self, ctx: Context, *, member: discord.Member):
+        """High-fives a user!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"_{ctx.author.mention} chocar los cinco en el espejo, supongo?_"
+            )
 
-        author = ctx.message.author
-        images = await self.config.slap()
+        await ctx.trigger_typing()
+        h5_to = await self.config.member(ctx.author).HIGHFIVES_SENT()
+        h5_from = await self.config.member(member).HIGHFIVES_RECEIVED()
+        gh5_to = await self.config.user(ctx.author).HIGHFIVES_SENT()
+        gh5_from = await self.config.user(member).HIGHFIVES_RECEIVED()
+        await self.config.member(ctx.author).HIGHFIVES_SENT.set(h5_to + 1)
+        await self.config.member(member).HIGHFIVES_RECEIVED.set(h5_from + 1)
+        await self.config.user(ctx.author).HIGHFIVES_SENT.set(gh5_to + 1)
+        await self.config.user(member).HIGHFIVES_RECEIVED.set(gh5_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"_chocha los cinco de regreso {bold(ctx.author.name)}_ 👀"
+            embed.set_image(url="https://i.imgur.com/hQPCYUJ.gif")
+        else:
+            message = f"_**{ctx.author.name}** choca los cinco con_ {member.mention}"
+            embed.set_image(url=choice(HIGHFIVE))
+        footer = (
+            f"{ctx.author.name} envio: {h5_to + 1} high-fives hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recivio: {h5_from + 1} high-fives hasta ahora."
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "slap")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} abofeteo a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def pat(self, ctx, *, user: discord.Member):
-        """Pats a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def hug(self, ctx: Context, *, member: discord.Member):
+        """Hug a user virtually on Discord!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"{ctx.author.mention} UnO nO PuEdE AbRaZarCe A sI MiSmO!!!!!"
+            )
 
-        author = ctx.message.author
-        images = await self.config.pat()
+        await ctx.trigger_typing()
+        hug_to = await self.config.member(ctx.author).HUGS_SENT()
+        hug_from = await self.config.member(member).HUGS_RECEIVED()
+        ghug_to = await self.config.user(ctx.author).HUGS_SENT()
+        ghug_from = await self.config.user(member).HUGS_RECEIVED()
+        await self.config.member(ctx.author).HUGS_SENT.set(hug_to + 1)
+        await self.config.member(member).HUGS_RECEIVED.set(hug_from + 1)
+        await self.config.user(ctx.author).HUGS_SENT.set(ghug_to + 1)
+        await self.config.user(member).HUGS_RECEIVED.set(ghug_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"Awwww ¡Gracias! ¡Tan amable de tu parte! _abraza a **{ctx.author.name}** devuelta_ 🤗"
+        else:
+            message = f"_**{ctx.author.name}** abraza a_ {member.mention} 🤗"
+        embed.set_image(url=str(choice(HUG)))
+        footer = (
+            f"{ctx.author.name} dio: {hug_to + 1} abrazos hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recivio: {hug_from + 1} abrazos hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "pat")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} le dio una palmadita a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def lick(self, ctx, *, user: discord.Member):
-        """Licks a user!"""
+    @commands.cooldown(1, 60, commands.BucketType.member)
+    async def kill(self, ctx: Context, *, member: discord.Member):
+        """Virtually attempt to kill a server member with a GIF reaction!"""
+        if member.id == ctx.me.id:
+            return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
-        author = ctx.message.author
-        images = await self.config.lick()
-        mn = len(images)
-        i = randint(0, mn - 1)
+        if member.id == ctx.author.id:
+            return await ctx.send(f"{ctx.author.mention} Seppuku no está permitido en mi reloj.. 💀")
 
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} lamio a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.trigger_typing()
+        kill_to = await self.config.member(ctx.author).KILLS_SENT()
+        kill_from = await self.config.member(member).KILLS_RECEIVED()
+        gkill_to = await self.config.user(ctx.author).KILLS_SENT()
+        gkill_from = await self.config.user(member).KILLS_RECEIVED()
+        await self.config.member(ctx.author).KILLS_SENT.set(kill_to + 1)
+        await self.config.member(member).KILLS_RECEIVED.set(kill_from + 1)
+        await self.config.user(ctx.author).KILLS_SENT.set(gkill_to + 1)
+        await self.config.user(member).KILLS_RECEIVED.set(gkill_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = f"_**{ctx.author.name}** intenta matar a {member.mention}!_ 🇫"
+        embed.set_image(url=choice(KILL))
+        footer = (
+            f"{ctx.author.name} intentós: {kill_to + 1} de matar hasta ahora.\n"
+            + f"{member.name} fue asesinado: {kill_from + 1} veces hasta ahora!"
+        )
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.is_nsfw()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def highfive(self, ctx, *, user: discord.Member):
-        """Highfives a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def kiss(self, ctx: Context, *, member: discord.Member):
+        """[NSFW] Kiss a user! Only allowed in NSFW channel."""
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"Poggers {bold(ctx.author.name)}, te acabas de besar! LOL!!! 💋"
+            )
 
-        author = ctx.message.author
-        images = await self.config.highfive()
-        mn = len(images)
-        i = randint(0, mn - 1)
+        await ctx.trigger_typing()
+        kiss_to = await self.config.member(ctx.author).KISSES_SENT()
+        kiss_from = await self.config.member(member).KISSES_RECEIVED()
+        gkiss_to = await self.config.user(ctx.author).KISSES_SENT()
+        gkiss_from = await self.config.user(member).KISSES_RECEIVED()
+        await self.config.member(ctx.author).KISSES_SENT.set(kiss_to + 1)
+        await self.config.member(member).KISSES_RECEIVED.set(kiss_from + 1)
+        await self.config.user(ctx.author).KISSES_SENT.set(gkiss_to + 1)
+        await self.config.user(member).KISSES_RECEIVED.set(gkiss_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"Awwww tan amable de tu parte! _Besa a **{ctx.author.name}** de vuelta!_ 😘 🥰"
+        else:
+            message = f"_**{ctx.author.name}** Besa a_ {member.mention} 😘 🥰"
+        embed.set_image(url=str(choice(KISS)))
+        footer = (
+            f"{ctx.author.name} envio: {kiss_to + 1} besos hasta ahora.\n"
+            + f"{member.name} recivio: {kiss_from + 1} besos hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} choco los cinco con {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.is_nsfw()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def feed(self, ctx, *, user: discord.Member):
-        """Feeds a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def lick(self, ctx: Context, *, member: discord.Member):
+        """[NSFW] Lick a user! Only allowed in NSFW channel."""
+        if member.id == ctx.me.id:
+            return await ctx.send(
+                f"{ctx.author.mention} ¿Quieres lamer un bot? Muy cachonda! Toma, lame esto: 🍆"
+            )
 
-        author = ctx.message.author
-        images = await self.config.feed()
+        await ctx.trigger_typing()
+        lick_to = await self.config.member(ctx.author).LICKS_SENT()
+        lick_from = await self.config.member(member).LICKS_RECEIVED()
+        glick_to = await self.config.user(ctx.author).LICKS_SENT()
+        glick_from = await self.config.user(member).LICKS_RECEIVED()
+        await self.config.member(ctx.author).LICKS_SENT.set(lick_to + 1)
+        await self.config.member(member).LICKS_RECEIVED.set(lick_from + 1)
+        await self.config.user(ctx.author).LICKS_SENT.set(glick_to + 1)
+        await self.config.user(member).LICKS_RECEIVED.set(glick_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = (
+            f"{ctx.author.mention} Poggers, solo te lamiste a ti mismo. 👏"
+            if member.id == ctx.author.id
+            else f"_**{ctx.author.name}** lame a_ {member.mention} 😳"
+        )
+        embed.set_image(url=choice(LICK))
+        footer = (
+            f"{ctx.author.name} a lamido a otros: {lick_to + 1} veces hasta ahora.\n"
+            + f"{member.name} fue lamido: {lick_from + 1} veces hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "feed")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} alimento a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def tickle(self, ctx, *, user: discord.Member):
-        """Tickles a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def nom(self, ctx: Context, *, member: discord.Member):
+        """Try to nom/bite a server member!"""
+        if member.id == ctx.me.id:
+            return await ctx.send(f"**OH NO!** _Huye_")
 
-        author = ctx.message.author
-        images = await self.config.tickle()
+        message = (
+            f"Waaaaaa! {bold(ctx.author.name)}, ¡Te mordiste! porque ?? 😭"
+            if member.id == ctx.author.id
+            else f"_**{ctx.author.name}** casualmente muerde a_ {member.mention} 😈"
+        )
+        await ctx.trigger_typing()
+        nom_to = await self.config.member(ctx.author).NOMS_SENT()
+        nom_from = await self.config.member(member).NOMS_RECEIVED()
+        gnom_to = await self.config.user(ctx.author).NOMS_SENT()
+        gnom_from = await self.config.user(member).NOMS_RECEIVED()
+        await self.config.member(ctx.author).NOMS_SENT.set(nom_to + 1)
+        await self.config.member(member).NOMS_RECEIVED.set(nom_from + 1)
+        await self.config.user(ctx.author).NOMS_SENT.set(gnom_to + 1)
+        await self.config.user(member).NOMS_RECEIVED.set(gnom_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        embed.set_image(url=choice(BITE))
+        footer = (
+            f"{ctx.author.name} a mordido: {nom_to + 1} veces hasta ahora.\n"
+            + f"{member.name} recivio: {nom_from + 1} mordidas hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "tickle")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} le hace cosquillas a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def poke(self, ctx, *, user: discord.Member):
-        """Pokes a user!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def pat(self, ctx: Context, *, member: discord.Member):
+        """Pat a server member with wholesome GIF!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(f"{ctx.author.mention} _se dan palmaditas, supongo? **yay**_ 🎉")
 
-        author = ctx.message.author
-        images = await self.config.poke()
+        await ctx.trigger_typing()
+        pat_to = await self.config.member(ctx.author).PATS_SENT()
+        pat_from = await self.config.member(member).PATS_RECEIVED()
+        gpat_to = await self.config.user(ctx.author).PATS_SENT()
+        gpat_from = await self.config.user(member).PATS_RECEIVED()
+        await self.config.member(ctx.author).PATS_SENT.set(pat_to + 1)
+        await self.config.member(member).PATS_RECEIVED.set(pat_from + 1)
+        await self.config.user(ctx.author).PATS_SENT.set(gpat_to + 1)
+        await self.config.user(member).PATS_RECEIVED.set(gpat_from + 1)
+        message = (
+            f"Wowie! Gracias {bold(ctx.author.name)} por darme palmaditas. 😳 😘"
+            if member.id == ctx.me.id
+            else f"_**{ctx.author.name}** le da palmaditas a_ {member.mention}"
+        )
+        embed = discord.Embed(colour=member.colour)
+        embed.set_image(url=choice(PAT))
+        footer = (
+            f"{ctx.author.name} dio: {pat_to + 1} palmadas hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recivio: {pat_from + 1} palmadas hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        nekos = await self.fetch_nekos_life(ctx, "poke")
-        images.extend(nekos)
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} molesta a {user.mention}**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
+    @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def smug(self, ctx):
-        """Be smug towards someone!"""
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def poke(self, ctx: Context, *, member: discord.Member):
+        """Poke your Discord friends or strangers!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(f"{bold(ctx.author.name)} quiere molestarse a sí mismo eh?!")
 
-        author = ctx.message.author
-        images = await self.config.smug()
+        await ctx.trigger_typing()
+        poke_to = await self.config.member(ctx.author).POKES_SENT()
+        poke_from = await self.config.member(member).POKES_RECEIVED()
+        gpoke_to = await self.config.user(ctx.author).POKES_SENT()
+        gpoke_from = await self.config.user(member).POKES_RECEIVED()
+        await self.config.member(ctx.author).POKES_SENT.set(poke_to + 1)
+        await self.config.member(member).POKES_RECEIVED.set(poke_from + 1)
+        await self.config.user(ctx.author).POKES_SENT.set(gpoke_to + 1)
+        await self.config.user(member).POKES_RECEIVED.set(gpoke_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"Awwww! . _Molesta a **{ctx.author.name}** de vuelta!_"
+        else:
+            message = f"_**{ctx.author.name}** casualmente molesta a_ {member.mention}"
+        embed.set_image(url=choice(POKE))
+        footer = (
+            f"{ctx.author.name} dio: {poke_to + 1} toques hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recibio: {poke_from + 1} toques hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        smug = await self.fetch_nekos_life(ctx, "smug")
-        images.extend(smug)
+        await ctx.send(content=quote(message), embed=embed)
 
-        mn = len(images)
-        i = randint(0, mn - 1)
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def punch(self, ctx: Context, *, member: discord.Member):
+        """Punch someone on Discord with a GIF reaction!"""
+        if member.id == ctx.me.id:
+            message = (
+                f"{ctx.author.mention} trató de golpear a un bot pero falló miserablemente,\n"
+                + "y en su lugar se golpeo a sí mismo.\n"
+                + "Que decepcionante LMFAO! 😂 😂 😂"
+            )
+            em = discord.Embed(colour=await ctx.embed_colour())
+            em.set_image(url="https://i.imgur.com/iVgOijZ.gif")
+            return await ctx.send(content=message, embed=em)
 
-        # Build Embed
-        embed = discord.Embed()
-        embed.description = f"**{author.mention} esta presumiendo**"
-        embed.set_footer(text="Hecho con la ayuda de nekos.life")
-        embed.set_image(url=images[i])
-        await ctx.send(embed=embed)
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"Yo uh ..... **{ctx.author.name}**, la autolesion no"
+                + " suena tan divertido. Detente, busca ayuda."
+            )
 
-    async def fetch_nekos_life(self, ctx, rp_action):
+        await ctx.trigger_typing()
+        punch_to = await self.config.member(ctx.author).PUNCHES_SENT()
+        punch_from = await self.config.member(member).PUNCHES_RECEIVED()
+        gpunch_to = await self.config.user(ctx.author).PUNCHES_SENT()
+        gpunch_from = await self.config.user(member).PUNCHES_RECEIVED()
+        await self.config.member(ctx.author).PUNCHES_SENT.set(punch_to + 1)
+        await self.config.member(member).PUNCHES_RECEIVED.set(punch_from + 1)
+        await self.config.user(ctx.author).PUNCHES_SENT.set(gpunch_to + 1)
+        await self.config.user(member).PUNCHES_RECEIVED.set(gpunch_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = f"_**{ctx.author.name}** {choice(PUNCH_STRINGS)}_ {member.mention}"
+        embed.set_image(url=choice(PUNCH))
+        footer = (
+            f"{ctx.author.name} envio: {punch_to + 1} golpes hasta ahora.\n"
+            + f"{member.name} recivio: {punch_from + 1} golpes hasta ahora!"
+        )
+        embed.set_footer(text=footer)
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f"https://api.nekos.dev/api/v3/images/sfw/gif/{rp_action}/?count=20") as resp:
-                try:
-                    content = await resp.json(content_type=None)
-                except (ValueError, aiohttp.ContentTypeError) as ex:
-                    log.debug("Pruned by exception, error below:")
-                    log.debug(ex)
-                    return []
+        await ctx.send(content=quote(message), embed=embed)
 
-        if content["data"]["status"]["code"] == 200:
-            return content["data"]["response"]["urls"]
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def slap(self, ctx: Context, *, member: discord.Member):
+        """Slap a server member!"""
+        if member.id == ctx.me.id:
+            return await ctx.send("**Ｎ Ｏ   Ｕ**")
 
+        if member.id == ctx.author.id:
+            return await ctx.send(f"{ctx.author.mention} No te abofetes, eres precioso!")
+
+        await ctx.trigger_typing()
+        slap_to = await self.config.member(ctx.author).SLAPS_SENT()
+        slap_from = await self.config.member(member).SLAPS_RECEIVED()
+        gslap_to = await self.config.user(ctx.author).SLAPS_SENT()
+        gslap_from = await self.config.user(member).SLAPS_RECEIVED()
+        await self.config.member(ctx.author).SLAPS_SENT.set(slap_to + 1)
+        await self.config.member(member).SLAPS_RECEIVED.set(slap_from + 1)
+        await self.config.user(ctx.author).SLAPS_SENT.set(gslap_to + 1)
+        await self.config.user(member).SLAPS_RECEIVED.set(gslap_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        message = f"_**{ctx.author.name}** abofetea a_ {member.mention}"
+        embed.set_image(url=choice(SLAP))
+        footer = (
+            f"{ctx.author.name} dio: {slap_to + 1} abofeteadas hasta ahora.\n"
+            + f"{member.name} recibio: {slap_from + 1} abofeteadas hasta ahora!"
+        )
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def smug(self, ctx: Context):
+        """Show everyone your smug face!"""
+        message = f"_**{ctx.author.name}** se enorgullece de **@\u200balgo**_ 😏"
+        await ctx.trigger_typing()
+        smug_count = await self.config.member(ctx.author).SMUG_COUNT()
+        gsmug_count = await self.config.user(ctx.author).SMUG_COUNT()
+        await self.config.member(ctx.author).SMUG_COUNT.set(smug_count + 1)
+        await self.config.user(ctx.author).SMUG_COUNT.set(gsmug_count + 1)
+        embed = discord.Embed(colour=ctx.author.colour)
+        embed.set_image(url=choice(SMUG))
+        footer = f"{ctx.author.name} ha presumido {smug_count + 1} veces en este servidor hasta ahora."
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    async def tickle(self, ctx: Context, *, member: discord.Member):
+        """Try to tickle a server member!"""
+        if member.id == ctx.author.id:
+            return await ctx.send(
+                f"{ctx.author.mention} Hacerse cosquillas uno mismo es aburrido!"
+                + " Hacer cosquillas a los demás es más divertido, ¿verdad?? 😏"
+            )
+
+        await ctx.trigger_typing()
+        tickle_to = await self.config.member(ctx.author).TICKLES_SENT()
+        tickle_from = await self.config.member(member).TICKLES_RECEIVED()
+        gtickle_to = await self.config.user(ctx.author).TICKLES_SENT()
+        gtickle_from = await self.config.user(member).TICKLES_RECEIVED()
+        await self.config.member(ctx.author).TICKLES_SENT.set(tickle_to + 1)
+        await self.config.member(member).TICKLES_RECEIVED.set(tickle_from + 1)
+        await self.config.user(ctx.author).TICKLES_SENT.set(gtickle_to + 1)
+        await self.config.user(member).TICKLES_RECEIVED.set(gtickle_from + 1)
+        embed = discord.Embed(colour=member.colour)
+        if member.id == ctx.me.id:
+            message = f"_Wow, bonitas habilidades para hacer cosquillas, {bold(ctx.author.name)}.'d._ 🤣 🤡"
+            embed.set_image(url="https://i.imgur.com/6jr50Fp.gif")
+        else:
+            message = f"_**{ctx.author.name}** hace cosquillas a_ {member.mention}"
+            embed.set_image(url=choice(TICKLE))
+        footer = (
+            f"{ctx.author.name} Cosquillas a otros: {tickle_to + 1} veces hasta ahora.\n"
+            + f"{'I' if member == ctx.me else member.name} "
+            + f"recibio: {tickle_from + 1} cosquillas hasta ahora!"
+        )
+        embed.set_footer(text=footer)
+
+        await ctx.send(content=quote(message), embed=embed)
