@@ -10,13 +10,13 @@ from .constants import *
 
 
 class Roleplay(commands.Cog):
-    """Juega con tus amigos de Discord o con extraños virtuales."""
+    """Do roleplay with your Discord friends or virtual strangers."""
 
     __author__ = "ow0x"
     __version__ = "1.0.3"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
-        """"""
+        """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthor: {self.__author__}\nCog Version: {self.__version__}"
 

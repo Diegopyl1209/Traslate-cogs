@@ -1,9 +1,9 @@
 {
     "name": "Roleplay",
-    "short": "Juego de rol en Discord con estadísticas de conteo.",
-    "description": "Juego de roles en Discord con estadísticas de conteo, (hug, pat, nom, cry and 12+ more commands).",
-    "end_user_data_statement": "Este engranaje no almacena de forma persistente ningún dato o metadato de PII sobre los usuarios..",
-    "install_msg": "Espero que disfrutes de este engranaje de Roleplay, o no.",
+    "short": "Roleplay on Discord with count stats.",
+    "description": "Roleplay on Discord with count stats, (hug, pat, nom, cry and 12+ more commands).",
+    "end_user_data_statement": "This cog does not persistently store any PII data or metadata about users.",
+    "install_msg": "I hope you will enjoy this Roleplay cog, or not.",
     "author": ["ow0x"],
     "required_cogs": {},
     "requirements": [],
