@@ -41,7 +41,7 @@ class Test(commands.Cog):
         list2 = data1
         channel = self.bot.get_channel(901904896507392061)
         await channel.send("Test1")
-        if list1 != list2:
+        if True:
             for a in list2:
                 if list1[a]["id"] in list2[a]:
                     pass
