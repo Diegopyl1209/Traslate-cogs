@@ -33,7 +33,7 @@ class Gfn(commands.Cog):
     async def check_list(self):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
-        channel = self.conf.guild(ctx.guild).channel()
+        channel = self.get_channel(self.conf.guild(ctx.guild).channel()["id"])  
 
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
