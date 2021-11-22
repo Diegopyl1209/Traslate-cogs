@@ -98,6 +98,6 @@ async def wait_for_red(self):
     def pre_change(self):
         pass # do stuff before variable is about to be changed
         
-    def post_change(self):
+    async def post_change(self):
         await ctx.send("TEST") # do stuff right after variable has changed
 
