@@ -42,11 +42,11 @@ class Test(commands.Cog):
         channel = self.bot.get_channel(901904896507392061)
         await channel.send("Test1")
         if True:
-            for i in range(len(list2)):
-                if list1[i] in list2[i]:
+            for i in list2:
+                if i in list1:
                     pass
                 else:
-                    await channel.send(f"no esta en {i}")
+                    await channel.send(i)
             await channel.send("test2")
 
     def cog_unload(self):
