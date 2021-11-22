@@ -42,7 +42,7 @@ class Test(commands.Cog):
         await channel.send(json_data["games"])
         gfn = [json_data["games"]]
 
-        for i in json_data["games"].split("/n"):
+        for i in json_data["games"].split("/n•"):
             await channel.send(f"aa {i}")
 
 
