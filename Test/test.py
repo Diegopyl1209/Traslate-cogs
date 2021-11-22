@@ -40,7 +40,7 @@ class Test(commands.Cog):
         
         channel = self.bot.get_channel(901904896507392061)
 
-        await channel.send(r)
+        await channel.send(r.text)
 
         #list2 = json.loads(package_json)
        # for a in package_json:
