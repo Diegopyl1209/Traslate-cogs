@@ -49,7 +49,7 @@ class Test(commands.Cog):
             else:
                 embed.add_field(name="", value=i, inline=False)
 
-            await channel.send(embed = embed)
+        await channel.send(embed = embed)
 
 
 
