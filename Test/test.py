@@ -50,7 +50,8 @@ class Test(commands.Cog):
                 embed.add_field(name="Juego:", value=i, inline=False)
                 gfn.append(i)
                 verify = True
-        if verify = True:
+                
+        if verify == True:
             await channel.send(embed = embed)
         else:
             pass
