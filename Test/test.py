@@ -68,7 +68,7 @@ class Test(commands.Cog):
     async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
-        if !channelDiscord:
+        if not channelDiscord:
             await ctx.send("Debes enviar un canal de texto valido")
         else:
             await self.config.guild(ctx.guild).channel.set(channelDiscord)
