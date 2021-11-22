@@ -57,7 +57,7 @@ class Gfn(commands.Cog):
         self.check_list.cancel()
 
     @commands.group()
-    async def Gfn(self, ctx: commands.Context):
+    async def Gfn(self):
         """Post when new videos are added to a YouTube channel"""
         pass
 
@@ -67,7 +67,7 @@ class Gfn(commands.Cog):
     async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
-        await ctx.send(embed = embed)
+        check_list()
 
 
 
