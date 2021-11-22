@@ -43,7 +43,7 @@ class Test(commands.Cog):
         list2 = json.dumps(package_json, indent=2)
         for a in list2:
             if a in list1:
-                pass
+                await channel.send(f"tt{a}")
             else:
                 await channel.send(f"tt{a}")
 
