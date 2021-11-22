@@ -39,16 +39,8 @@ class Test(commands.Cog):
 
         json_data = eval(r.text)
 
-         
-        await channel.send(json_data["games"].split(","))
-
-        for a in json_data.split():
-            if a in gfn:
-                pass
-            else:
-                print(a)
-                gfn.append(a)
-                await channel.send(a)
+        for i in json_data:
+            await channel.send(i)
 
 
 
