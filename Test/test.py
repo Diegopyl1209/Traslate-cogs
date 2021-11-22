@@ -33,7 +33,7 @@ class Gfn(commands.Cog):
     async def check_list(self, ctx: commands.Context):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
-        channel_id = await self.conf.guild(guild).channel()["id"] 
+        channel_id = await self.conf.guild(ctx.guild).channel()["id"] 
         channel = self.bot.get_channel(channel_id)  
 
         json_data = r.json()
