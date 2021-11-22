@@ -18,7 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = ["** (Ubisoft Connect)**", " (Ubisoft Connect)"]
+gfn = [" **(Ubisoft Connect)**", " (Ubisoft Connect)"]
 class Test(commands.Cog):
     """A YouTube subscription cog
     
@@ -35,7 +35,7 @@ class Test(commands.Cog):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
         channel = self.bot.get_channel(901904896507392061)
-        
+
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="")
         verify = False
