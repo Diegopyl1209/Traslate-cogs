@@ -1,7 +1,7 @@
 {
-    "author" : ["Csss"],
+    "author" : ["CrunchBangDev"],
     "install_msg" : "You've just installed the Tube cog!",
-    "name" : "Test",
+    "name" : "Tube",
     "short" : "Subscribe to channels on the 'tube",
     "description" : "Posts in a channel every time a new video is added to a YouTube channel.",
     "required_cogs": {},
