@@ -44,7 +44,7 @@ class Test(commands.Cog):
         if True:
             for index, a in enumerate(list2):
                 await channel.send(a)
-                if list1[a] == list2[a]:
+                if list1[index] == list2[index]:
                     pass
                 else:
                     await channel.send("no esta" + a)
