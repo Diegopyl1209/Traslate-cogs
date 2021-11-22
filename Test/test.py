@@ -30,7 +30,8 @@ class Test(commands.Cog):
         self.bot = bot
         self.list = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
         self.wait.start()
-        
+        self.set_value.start()
+
 
 
 
