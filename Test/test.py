@@ -53,7 +53,7 @@ class Test(commands.Cog):
 
         for a in json_list:
             if a <= 5:
-                await ctx.send("hola")
+                await ctx.send(json_list[a])
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
