@@ -31,7 +31,7 @@ class Test(commands.Cog):
     async def check_list(self):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
-        channel = self.bot.get_channel(901904896507392061)
+        channel = self.config.guild(ctx.guild).channel
 
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
@@ -58,14 +58,17 @@ class Test(commands.Cog):
         self.check_list.cancel()
 
     @commands.group()
-    async def test(self, ctx: commands.Context):
+    async def Gfn(self, ctx: commands.Context):
         """Post when new videos are added to a YouTube channel"""
         pass
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @test.command()
-    async def subscribe(self, ctx: commands.Context, channelYouTube, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
+    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
-        pass
+        if !channelDiscord:
+            await ctx.send("Debes enviar un canal de texto valido")
+        else:
+            await self.config.guild(ctx.guild).channel.set(channelDiscord)
