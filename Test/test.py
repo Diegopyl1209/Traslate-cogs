@@ -41,10 +41,12 @@ class Test(commands.Cog):
         channel = self.bot.get_channel(901904896507392061)
 
 
-        json_data = eval(r.text.split("\n•"))
+        #json_data = eval(r.text.split("\n•"))
         gfn = []
+        test = r.text.split("\n•")
 
-        await channel.send(json_data["games"])
+        #await channel.send(json_data["games"])
+        await channel.send(test["games"])
 
         #list2 = json.loads(package_json)
        # for a in package_json:
