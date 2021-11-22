@@ -34,7 +34,7 @@ class Test(commands.Cog):
     async def check_list(self, list1):
         list2 = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
         channel = self.bot.get_channel(901904896507392061)
-        await channel.send(list1[10])
+        await channel.send(list2[10])
         if list1 != list2:
             for a in list2:
                 if list1[a]["id"] in list2[a]["id"]:
