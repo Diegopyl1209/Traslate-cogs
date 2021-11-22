@@ -10,7 +10,7 @@ import aiohttp
 import discord
 import feedparser
 
-
+from redbot.core import Config, bot, checks, commands
 
 class Test(commands.Cog):
     """A YouTube subscription cog
