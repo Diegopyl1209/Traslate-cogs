@@ -68,11 +68,11 @@ class gfn(commands.Cog):
     async def demo(self, ctx: commands.Context):
         """tal ves envie el ultimo embed con los juegos
         """
-        embed = check_list()
+        embed = "nada"
         if not embed:
-            await ctx.send("Nose que poner aqui")
+            await ctx.send("Todavia no esta listo")
         else:
-            await ctx.send(embed = embed)
+            await ctx.send("nada")
 
 
 
