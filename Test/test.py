@@ -40,10 +40,12 @@ class Test(commands.Cog):
         package_json = r.json()
         channel = self.bot.get_channel(901904896507392061)
 
-        package_str = json.dumps(package_json, indent=2)
-        for a in package_str:
-            if a in package_str:
-                await channel.send("test")
+        list2 = json.dumps(package_json, indent=2)
+        for a in list2:
+            if a in list1:
+                pass
+            else:
+                await channel.send(a)
 
 
     def cog_unload(self):
