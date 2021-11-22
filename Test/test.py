@@ -28,7 +28,7 @@ class Test(commands.Cog):
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
-    @tube.command()
+    @test.command()
     async def subscribe(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Subscribe a Discord channel to a YouTube channel
         
@@ -52,7 +52,7 @@ class Test(commands.Cog):
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
-    @tube.command()
+    @test.command()
     async def unsubscribe(self, ctx: commands.Context, channelYouTube, channelDiscord: Optional[discord.TextChannel] = None):
         """Unsubscribe a Discord channel from a YouTube channel
         
