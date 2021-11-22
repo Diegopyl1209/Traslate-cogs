@@ -10,6 +10,7 @@ import aiohttp
 import discord
 import feedparser
 import json
+import requests
 
 from typing import Optional
 
@@ -48,9 +49,10 @@ class Test(commands.Cog):
         Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
         """
         json_list = json.load("gfnpc-es-ES.json")
+        r = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
         for a in json_list:
-            if json_list[a]["id"] in json_list2[a]["id"]:
+            if json_list[a]["id"] in r[a]["id"]:
                 await ctx.send("test")
 
     @checks.admin_or_permissions(manage_guild=True)
