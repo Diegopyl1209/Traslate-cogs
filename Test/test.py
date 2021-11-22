@@ -42,10 +42,10 @@ class Test(commands.Cog):
 
         #list2 = json.loads(package_json)
         for a in package_json:
-            if a in list1:
+            if a in list1 = True:
                 await channel.send("esta")
             else:
-                await channel.send(f"tt{a}")
+                await channel.send(f"{list1}")
 
 
     def cog_unload(self):
