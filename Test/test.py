@@ -19,7 +19,7 @@ from redbot.core.utils.chat_formatting import pagify
 
 
 gfn = [" **(Ubisoft Connect)**"]
-class Test(commands.Cog):
+class Gfn(commands.Cog):
     """Jueves de Geforce now Cog"""
     def __init__(self, bot: bot.Red):
         self.bot = bot
