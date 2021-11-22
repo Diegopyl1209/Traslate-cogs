@@ -16,13 +16,31 @@ from typing import Optional
 
 from redbot.core import Config, bot, checks, commands
 
-class Test(commands.Cog):
-    """A YouTube subscription cog
+
+
     
-    Thanks to mikeshardmind(Sinbad) for the RSS cog as reference"""
+        
+
+
+class Test(commands.Cog):
+    """cosas"""
     has_warned_about_invalid_channels = False
     def __init__(self, bot: bot.Red):
         self.bot = bot
+        self.list = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
+        new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
+
+    def set_value(self, new_value):
+        if self.list != new_value:
+            self.pre_change()
+            self.variable = new_value
+            self.post_change()
+    
+    def pre_change(self):
+        pass # do stuff before variable is about to be changed
+        
+    def post_change(self):
+        await ctx.send("TEST") # do stuff right after variable has changed
 
 
     @commands.group()
@@ -48,13 +66,8 @@ class Test(commands.Cog):
         
         Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
         """
-        f = open('data.json') as json_file
-        json_list = json.load(f)
-        r = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
-        for a in json_list:
-            if a <= 5:
-                await ctx.send(json_list[a])
+        await ctx.send(self.list, new_value)
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
@@ -81,3 +94,6 @@ class Test(commands.Cog):
         await ctx.send(f"Subscription(s) removed: {unsubbed}")
 
 
+@tasks.loop(seconds=1)
+async def wait_for_red(self):
+    new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
