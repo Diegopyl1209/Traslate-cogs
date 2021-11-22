@@ -32,7 +32,7 @@ class Test(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def check_list(self, list1):
-        list2 = requests.get("https://jsonplaceholder.typicode.com/users")
+        list2 = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
         channel = self.bot.get_channel(901904896507392061)
         await channel.send(f"list1 = list2")
         if list1 == list2:
