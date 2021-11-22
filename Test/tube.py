@@ -74,25 +74,4 @@ class Test(commands.Cog):
         await self.conf.guild(ctx.guild).subscriptions.set(subs)
         await ctx.send(f"Subscription(s) removed: {unsubbed}")
 
-    
-    def cog_unload(self):
-        self.background_get_new_videos.cancel()
 
-    @tasks.loop(seconds=1)
-    async def background_get_new_videos(self):
-        fetched = {}
-        cache_size = await self.conf.cache_size()
-        for guild in self.bot.guilds:
-            update = await self._get_new_videos(guild, fetched)
-            if not update:
-                continue
-            fetched.update(update)
-            # Truncate video ID cache
-            cache = await self.conf.guild(guild).cache()
-            await self.conf.guild(guild).cache.set(cache[-cache_size:])
-
-    @background_get_new_videos.before_loop
-    async def wait_for_red(self):
-        await self.bot.wait_until_red_ready()
-        interval = await self.conf.interval()
-        self.background_get_new_videos.change_interval(seconds=interval)
