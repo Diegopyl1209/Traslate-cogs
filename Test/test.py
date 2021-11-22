@@ -40,16 +40,20 @@ class Test(commands.Cog):
         #json_data = eval(r.text).split("\n•")
         json_data = r.json()
         await channel.send(json_data["games"])
+        embed=discord.Embed(title="Añadidos Geforce Now", description="")
+        verify = False
 
         for i in json_data["games"].split(";"):
             if i in gfn:
-                pass
+                verify = False
             else:
-                embed=discord.Embed(title="Añadidos Geforce Now", description="")
                 embed.add_field(name="Juego:", value=i, inline=False)
                 gfn.append(i)
-
-        await channel.send(embed = embed)
+                verify = True
+        if verify = True:
+            await channel.send(embed = embed)
+        else:
+            pass
 
 
 
