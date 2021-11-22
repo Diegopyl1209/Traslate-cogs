@@ -46,7 +46,7 @@ class Test(commands.Cog):
                 if list1[i] == list2[i]:
                     pass
                 else:
-                    await channel.send("no esta" + i)
+                    await channel.send(f"no esta" i)
             await channel.send("test2")
 
     def cog_unload(self):
