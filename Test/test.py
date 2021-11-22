@@ -37,7 +37,7 @@ class Test(commands.Cog):
         channel = self.bot.get_channel(901904896507392061)
 
 
-        json_data = eval(r.text)
+        json_data = eval(r.text).split("\n•")
 
         for i in json_data["games"]:
             await channel.send(i)
