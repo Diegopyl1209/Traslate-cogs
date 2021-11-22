@@ -37,7 +37,7 @@ class Test(commands.Cog):
         await channel.send(list1 = list2)
         if list1 == list2:
             channel = bot.get_channel(901904896507392061)
-            await channel.send("test")
+            await channel.send("test111")
 
 
 
