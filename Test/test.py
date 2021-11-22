@@ -29,33 +29,6 @@ class Gfn(commands.Cog):
 
 
 
-    @tasks.loop(seconds=10)
-    async def check_list(self, ctx: commands.Context):
-        r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
-        
-        channel_id = await self.conf.guild(ctx.guild).channel()["id"] 
-        channel = self.bot.get_channel(channel_id)  
-
-        json_data = r.json()
-        embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
-        embed.set_thumbnail(url="https://www.apkmirror.com/wp-content/uploads/2020/09/36/5f626fb02b86b.png")
-        verify = False
-
-        for i in json_data["games"].split(";"):
-            if i in gfn:
-                verify = False
-            else:
-                embed.add_field(name="-------------------------------------", value=i, inline=False)
-                gfn.append(i)
-                verify = True
-
-        if verify == True:
-            await channel.send(embed = embed)
-        else:
-            pass
-
-
-
 
     def cog_unload(self):
         self.check_list.cancel()
@@ -79,3 +52,33 @@ class Gfn(commands.Cog):
                               'id': channelDiscord.id}}
             await self.conf.guild(ctx.guild).channel.set(newChannel)
             await ctx.send("Listo")
+
+
+
+
+    @tasks.loop(seconds=10)
+    async def check_list(self):
+        r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
+        
+        channel_id = 743921141864988743
+        channel = self.bot.get_channel(channel_id)  
+
+        json_data = r.json()
+        embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
+        embed.set_thumbnail(url="https://www.apkmirror.com/wp-content/uploads/2020/09/36/5f626fb02b86b.png")
+        verify = False
+
+        for i in json_data["games"].split(";"):
+            if i in gfn:
+                verify = False
+            else:
+                embed.add_field(name="-------------------------------------", value=i, inline=False)
+                gfn.append(i)
+                verify = True
+
+        if verify == True:
+            await channel.send(embed = embed)
+        else:
+            pass
+
+
