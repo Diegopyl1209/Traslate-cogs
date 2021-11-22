@@ -40,13 +40,13 @@ async def check_list(list1):
 
 
     @commands.group()
-    async def tube(self, ctx: commands.Context):
+    async def test(self, ctx: commands.Context):
         """Post when new videos are added to a YouTube channel"""
         pass
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
-    @tube.command()
+    @test.command()
     async def subscribe(self, ctx: commands.Context, channelYouTube, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
