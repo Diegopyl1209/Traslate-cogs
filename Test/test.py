@@ -26,12 +26,12 @@ class Test(commands.Cog):
     has_warned_about_invalid_channels = False
     def __init__(self, bot: bot.Red):
         self.bot = bot
-        self.check_list.start(list1)
+        self.check_list.start()
 
 
 
     @tasks.loop(seconds=10)
-    async def check_list(list1):
+    async def check_list():
         list2 = requests.get("https://jsonplaceholder.typicode.com/users")
         if list1 == list2:
             channel = bot.get_channel(901904896507392061)
