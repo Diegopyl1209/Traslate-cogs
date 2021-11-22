@@ -46,6 +46,7 @@ class Test(commands.Cog):
             if a in gfn:
                 pass
             else:
+                print(a)
                 gfn.append(a)
                 await channel.send(a)
 
