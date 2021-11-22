@@ -67,7 +67,7 @@ class Test(commands.Cog):
         Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
         """
 
-        await ctx.send(self.list, new_value)
+        await ctx.send("hola")
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
