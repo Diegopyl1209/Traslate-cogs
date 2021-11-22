@@ -46,7 +46,7 @@ class Test(commands.Cog):
         test = r.text.split("\n•")
 
         #await channel.send(json_data["games"])
-        await channel.send(test["games"])
+        await channel.send(test[0])
 
         #list2 = json.loads(package_json)
        # for a in package_json:
