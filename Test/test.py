@@ -9,6 +9,7 @@ import logging
 import aiohttp
 import discord
 import feedparser
+import json
 
 from typing import Optional
 
