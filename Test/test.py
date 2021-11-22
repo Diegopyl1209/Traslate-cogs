@@ -33,6 +33,8 @@ class Test(commands.Cog):
     @tasks.loop(seconds=10)
     async def check_list(self, list1):
         list2 = requests.get("https://jsonplaceholder.typicode.com/users")
+        channel = bot.get_channel(901904896507392061)
+        await channel.send("test")
         if list1 == list2:
             channel = bot.get_channel(901904896507392061)
             await channel.send("test")
