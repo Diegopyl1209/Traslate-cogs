@@ -30,10 +30,10 @@ class Gfn(commands.Cog):
 
 
     @tasks.loop(seconds=10)
-    async def check_list(self):
+    async def check_list(self, guild: discord.Guild):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
-        channel = self.bot.get_channel(self.conf.guild(ctx.guild).channel()["id"])  
+        channel = self.bot.get_channel(self.conf.guild(guild).channel()["id"])  
 
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
@@ -67,7 +67,7 @@ class Gfn(commands.Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @Gfn.command()
-    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
+    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False, guild: discord.Guild):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
         if not channelDiscord:
@@ -76,5 +76,5 @@ class Gfn(commands.Cog):
 
             newChannel = {'channel': {'name': channelDiscord.name,
                               'id': channelDiscord.id}}
-            await self.conf.guild(ctx.guild).channel.set(newChannel)
+            await self.conf.guild(guild).channel.set(newChannel)
             await ctx.send("Listo")
