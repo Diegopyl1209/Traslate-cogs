@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .gfn import Gfn
+from .gfn import gfn
 
 async def setup(bot):
-    bot.add_cog(Gfn(bot))
+    bot.add_cog(gfn(bot))
