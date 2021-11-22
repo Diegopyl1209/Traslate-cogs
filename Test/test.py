@@ -18,7 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = ["**(Ubisoft Connect)**", "(Ubisoft Connect)"]
+gfn = ["** (Ubisoft Connect)**", " (Ubisoft Connect)"]
 class Test(commands.Cog):
     """A YouTube subscription cog
     
@@ -50,7 +50,7 @@ class Test(commands.Cog):
                 embed.add_field(name="Juego:", value=i, inline=False)
                 gfn.append(i)
                 verify = True
-                
+
         if verify == True:
             await channel.send(embed = embed)
         else:
