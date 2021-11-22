@@ -87,18 +87,18 @@ class Test(commands.Cog):
 
 
         @tasks.loop(seconds=1)
-            async def wait(self):
-                new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
+        async def wait(self):
+            new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
-                def set_value(self, new_value):
-                    if self.list != new_value:
-                         self.pre_change()
-                        self.variable = new_value
-                        self.post_change()
+            def set_value(self, new_value):
+                if self.list != new_value:
+                    self.pre_change()
+                    self.variable = new_value
+                    self.post_change()
 
-                def pre_change(self):
-                    pass # do stuff before variable is about to be changed
+            def pre_change(self):
+                pass # do stuff before variable is about to be changed
         
-                async def post_change(self):
-                    await ctx.send("TEST") # do stuff right after variable has changed
+            async def post_change(self):
+                await ctx.send("TEST") # do stuff right after variable has changed
 
