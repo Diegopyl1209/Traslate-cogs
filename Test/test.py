@@ -18,12 +18,9 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = [" **(Ubisoft Connect)**", " (Ubisoft Connect)"]
+gfn = [" **(Ubisoft Connect)**"]
 class Test(commands.Cog):
-    """A YouTube subscription cog
-    
-    Thanks to mikeshardmind(Sinbad) for the RSS cog as reference"""
-    has_warned_about_invalid_channels = False
+    """Jueves de Geforce now Cog"""
     def __init__(self, bot: bot.Red):
         self.bot = bot
         self.check_list.start()
@@ -38,13 +35,14 @@ class Test(commands.Cog):
 
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="")
+        embed.set_thumbnail(url="https://www.apkmirror.com/wp-content/uploads/2020/09/36/5f626fb02b86b.png")
         verify = False
 
         for i in json_data["games"].split(";"):
             if i in gfn:
                 verify = False
             else:
-                embed.add_field(name="Juego:", value=i, inline=False)
+                embed.add_field(name=" ", value=i, inline=False)
                 gfn.append(i)
                 verify = True
 
