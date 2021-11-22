@@ -38,9 +38,12 @@ class Test(commands.Cog):
     async def check_list(self, list1):
         r = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
         package_json = r.json()
+        channel = self.bot.get_channel(901904896507392061)
 
         package_str = json.dumps(package_json, indent=2)
-        print(package_str)
+        for a in package_str:
+            if a in package_str:
+                await channel.send("test")
 
 
     def cog_unload(self):
