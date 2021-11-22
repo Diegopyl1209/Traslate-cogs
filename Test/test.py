@@ -41,26 +41,6 @@ class Test(commands.Cog):
         """Post when new videos are added to a YouTube channel"""
         pass
 
-    @checks.admin_or_permissions(manage_guild=True)
-    @commands.guild_only()
-    @test.command()
-    async def subscribe(self, ctx , new_value:new_value):
-        """Subscribe a Discord channel to a YouTube channel
-        
-        If no discord channel is specified, the current channel will be subscribed
-        
-        Adding channels by name is not supported at this time. The YouTube channel ID for this can be found in channel links on videos.
-        
-        For example, to subscribe to the channel Ctrl Shift Face, you would search YouTube for the name, then on one of the videos in the results copy the channel link. It should look like this:
-        https://www.youtube.com/channel/UCKpH0CKltc73e4wh0_pgL3g
-        
-        Now take the last part of the link as the channel ID:
-        `[p]tube subscribe UCKpH0CKltc73e4wh0_pgL3g`
-        
-        Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
-        """
-
-        await ctx.send(self.list == new_value)
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
@@ -103,3 +83,24 @@ class Test(commands.Cog):
         async def post_change(self):
             await ctx.send("TEST") # do stuff right after variable has changed
 
+
+    @checks.admin_or_permissions(manage_guild=True)
+    @commands.guild_only()
+    @test.command()
+    async def subscribe(self, ctx , new_value:new_value):
+        """Subscribe a Discord channel to a YouTube channel
+        
+        If no discord channel is specified, the current channel will be subscribed
+        
+        Adding channels by name is not supported at this time. The YouTube channel ID for this can be found in channel links on videos.
+        
+        For example, to subscribe to the channel Ctrl Shift Face, you would search YouTube for the name, then on one of the videos in the results copy the channel link. It should look like this:
+        https://www.youtube.com/channel/UCKpH0CKltc73e4wh0_pgL3g
+        
+        Now take the last part of the link as the channel ID:
+        `[p]tube subscribe UCKpH0CKltc73e4wh0_pgL3g`
+        
+        Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
+        """
+
+        await ctx.send(self.list == new_value)
