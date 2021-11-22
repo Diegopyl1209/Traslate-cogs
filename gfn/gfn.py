@@ -19,7 +19,7 @@ from redbot.core.utils.chat_formatting import pagify
 
 
 gfn = []
-class Gfn(commands.Cog):
+class gfn(commands.Cog):
     """Jueves de Geforce now Cog"""
     def __init__(self, bot: bot.Red):
         self.bot = bot
@@ -49,6 +49,7 @@ class Gfn(commands.Cog):
 
         if verify == True:
             await channel.send(embed = embed)
+            return embed
         else:
             pass
 
@@ -58,16 +59,20 @@ class Gfn(commands.Cog):
 
     @commands.group()
     async def Gfn(self):
-        """Post when new videos are added to a YouTube channel"""
+        """por el momento nada"""
         pass
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @Gfn.command()
     async def demo(self, ctx: commands.Context):
-        """Establece un canal en donde se enviaran los nuevos juegos de geforce now
+        """tal ves envie el ultimo embed con los juegos
         """
-        await ctx.send(gfn)
+        embed = check_list()
+        if not embed:
+            await ctx.send("Nose que poner aqui")
+        else:
+            await ctx.send(embed = embed)
 
 
 

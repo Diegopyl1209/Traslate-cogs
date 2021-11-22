@@ -1,0 +1,15 @@
+{
+    "author" : ["Diegopyl1209"],
+    "install_msg" : "Cog para obtener los juegos de cada jueves gfn!",
+    "name" : "gfn",
+    "short" : "jueves de gfn",
+    "description" : "sss.",
+    "required_cogs": {},
+    "requirements": [
+        "feedparser"
+    ],
+    "min_bot_version": "3.1.8",
+    "max_bot_version": "0.0.0",
+    "tags": [],
+    "type": "COG"
+}
