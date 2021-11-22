@@ -40,7 +40,7 @@ class Test(commands.Cog):
         
         channel = self.bot.get_channel(901904896507392061)
 
-        json_data = JSON.stringify(r.text)
+        json_data = eval(r.text)
 
         await channel.send(json_data)
 
