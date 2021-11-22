@@ -29,8 +29,8 @@ class Test(commands.Cog):
     def __init__(self, bot: bot.Red):
         self.bot = bot
         self.list = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
-        new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
         self.wait.start()
+        
 
 
 
