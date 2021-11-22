@@ -39,6 +39,7 @@ class Test(commands.Cog):
 
         #json_data = eval(r.text).split("\n•")
         json_data = r.text.split("\n•")
+        await channel.send(json_data)
 
         for i in json_data["games"]:
             await channel.send(i)
