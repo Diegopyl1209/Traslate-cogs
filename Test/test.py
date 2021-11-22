@@ -47,7 +47,7 @@ class Test(commands.Cog):
             if i in gfn:
                 pass
             else:
-                embed.add_field(name="", value=i, inline=False)
+                embed.add_field(name="Juego:", value=i, inline=False)
 
         await channel.send(embed = embed)
 
