@@ -39,7 +39,8 @@ class Test(commands.Cog):
             channel = bot.get_channel(901904896507392061)
             await channel.send("test2")
 
-
+    def cog_unload(self):
+        self.check_list.cancel()
 
     @commands.group()
     async def test(self, ctx: commands.Context):
