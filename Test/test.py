@@ -41,9 +41,15 @@ class Test(commands.Cog):
         json_data = r.json()
         await channel.send(json_data["games"])
         gfn = [json_data["games"]]
+        embed=discord.Embed(title="Añadidos Geforce Now", description="")
 
         for i in json_data["games"].split(";"):
-            await channel.send(f"aa {i}")
+            if i in gfn:
+                pass
+            else:
+                embed.add_field(name="", value=i, inline=False)
+
+            await channel.send(embed = embed)
 
 
 
