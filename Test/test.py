@@ -36,9 +36,11 @@ class Test(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def check_list(self, list1):
-        list2 = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
+        with urllib.request.urlopen("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/bf32706e2f7c43ca5206246fd3cb6bd2d3863960/gistfile1.txt") as url:
+            data1 = json.loads(url.read().decode())
+        list2 = data1
         channel = self.bot.get_channel(901904896507392061)
-        await channel.send(list1[10])
+        await channel.send("Test1")
         if list1 != list2:
             for a in list2:
                 if list1[a]["id"] in list2[a]["id"]:
