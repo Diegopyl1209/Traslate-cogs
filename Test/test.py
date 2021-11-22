@@ -10,6 +10,8 @@ import aiohttp
 import discord
 import feedparser
 
+from typing import Optional
+
 from redbot.core import Config, bot, checks, commands
 
 class Test(commands.Cog):
