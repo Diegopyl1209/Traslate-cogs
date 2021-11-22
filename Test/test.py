@@ -18,7 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = ["**(Ubisoft Connect)**"]
+gfn = ["**(Ubisoft Connect)**", "(Ubisoft Connect)"]
 class Test(commands.Cog):
     """A YouTube subscription cog
     
@@ -40,12 +40,12 @@ class Test(commands.Cog):
         #json_data = eval(r.text).split("\n•")
         json_data = r.json()
         await channel.send(json_data["games"])
-        embed=discord.Embed(title="Añadidos Geforce Now", description="")
 
         for i in json_data["games"].split(";"):
             if i in gfn:
                 pass
             else:
+                embed=discord.Embed(title="Añadidos Geforce Now", description="")
                 embed.add_field(name="Juego:", value=i, inline=False)
                 gfn.append(i)
 
