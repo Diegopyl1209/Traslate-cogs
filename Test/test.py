@@ -18,11 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-
-with urllib.request.urlopen("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/bf32706e2f7c43ca5206246fd3cb6bd2d3863960/gistfile1.txt") as url:
-    data = json.loads(url.read().decode())
-list1 = data
-
+gfn = []
 class Test(commands.Cog):
     """A YouTube subscription cog
     
@@ -42,17 +38,19 @@ class Test(commands.Cog):
 
 
         json_data = eval(r.text)
-        gfn = []
 
+         
         await channel.send(json_data["games"])
 
-        #list2 = json.loads(package_json)
-       # for a in package_json:
-           # if a in list1:
-           #     await channel.send(list1)
-          #  else:
-          #      await channel.send(f"{list1}")
-        
+        for a in json_data["games"]:
+            if a in gfn:
+                pass
+            else:
+                gfn.append(a)
+                await channel.send(a)
+
+
+
 
     def cog_unload(self):
         self.check_list.cancel()
