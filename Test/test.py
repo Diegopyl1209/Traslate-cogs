@@ -42,7 +42,7 @@ class Test(commands.Cog):
         channel = self.bot.get_channel(901904896507392061)
         await channel.send("Test1")
         if True:
-            for index, a in enumarate(list2):
+            for index, a in enumerate(list2):
                 await channel.send(a)
                 if list1[a] == list2[a]:
                     pass
