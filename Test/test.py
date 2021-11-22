@@ -34,7 +34,7 @@ class Test(commands.Cog):
     async def check_list(self, list1):
         list2 = requests.get("https://jsonplaceholder.typicode.com/users")
         channel = self.bot.get_channel(901904896507392061)
-        await channel.send(list1 = list2)
+        await channel.send(f"list1 = list2")
         if list1 == list2:
             channel = bot.get_channel(901904896507392061)
             await channel.send("test111")
