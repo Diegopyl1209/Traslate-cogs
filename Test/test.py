@@ -42,7 +42,7 @@ class Test(commands.Cog):
             if i in gfn:
                 verify = False
             else:
-                embed.add_field(name=" ", value=i, inline=False)
+                embed.add_field(name=i, value="desc", inline=False)
                 gfn.append(i)
                 verify = True
 
