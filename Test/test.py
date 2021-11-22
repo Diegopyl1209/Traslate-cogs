@@ -36,17 +36,20 @@ class Test(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def check_list(self, list1):
-        r = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
-        package_json = r.json()
+        "r = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
+        "package_json = r.json()
         channel = self.bot.get_channel(901904896507392061)
 
         #list2 = json.loads(package_json)
-        for a in package_json:
-            if a in list1:
-                await channel.send(list1)
-            else:
-                await channel.send(f"{list1}")
-
+       # for a in package_json:
+           # if a in list1:
+           #     await channel.send(list1)
+          #  else:
+          #      await channel.send(f"{list1}")
+        with open(filepath, encoding="utf8") as fp:
+           data = []
+           for line in fp:
+               print('<li><span class="badge badge-success">Added</span> ' + line.strip('\n') + '</li>')
 
     def cog_unload(self):
         self.check_list.cancel()
