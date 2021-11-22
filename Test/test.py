@@ -38,7 +38,7 @@ class Test(commands.Cog):
 
 
         #json_data = eval(r.text).split("\n•")
-        json_data = r.json
+        json_data = r.json()
         await channel.send(json_data)
 
 
