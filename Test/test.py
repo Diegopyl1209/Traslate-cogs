@@ -12,6 +12,7 @@ import feedparser
 import json
 import requests
 
+from discord.ext import tasks
 from typing import Optional
 
 from redbot.core import Config, bot, checks, commands
