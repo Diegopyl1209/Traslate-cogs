@@ -43,7 +43,7 @@ class Test(commands.Cog):
         await channel.send("Test1")
         if list1 != list2:
             for a in list2:
-                if list1[a]["id"] in list2[a]["id"]:
+                if list1[a]["id"] in list2[a]:
                     pass
                 else:
                     await channel.send("no esta" + a)
