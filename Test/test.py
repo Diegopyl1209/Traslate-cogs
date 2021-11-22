@@ -30,6 +30,7 @@ class Test(commands.Cog):
         self.bot = bot
         self.list = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
         new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
+        self.wait.start()
 
 
 
@@ -86,7 +87,7 @@ class Test(commands.Cog):
 
 
 @tasks.loop(seconds=1)
-async def wait_for_red(self):
+async def wait(self):
     new_value = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
     def set_value(self, new_value):
