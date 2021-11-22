@@ -43,7 +43,7 @@ class Test(commands.Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @test.command()
-    async def subscribe(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
+    async def subscribe(self, new_value, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Subscribe a Discord channel to a YouTube channel
         
         If no discord channel is specified, the current channel will be subscribed
