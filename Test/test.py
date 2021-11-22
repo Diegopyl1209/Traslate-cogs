@@ -34,7 +34,7 @@ class Test(commands.Cog):
         channel = self.bot.get_channel(901904896507392061)
 
         json_data = r.json()
-        embed=discord.Embed(title="Añadidos Geforce Now", description="", color="Green")
+        embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
         embed.set_thumbnail(url="https://www.apkmirror.com/wp-content/uploads/2020/09/36/5f626fb02b86b.png")
         verify = False
 
