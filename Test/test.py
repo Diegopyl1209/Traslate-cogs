@@ -73,5 +73,8 @@ class Gfn(commands.Cog):
         if not channelDiscord:
             await ctx.send("Debes enviar un canal de texto valido")
         else:
-            await self.conf.guild(ctx.guild).channel.set(channelDiscord)
+
+            newChannel = {'channel': {'name': channelDiscord.name,
+                              'id': channelDiscord.id}}
+            await self.conf.guild(ctx.guild).channel.set(newChannel)
             await ctx.send("Listo")
