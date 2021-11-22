@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .tube import Tube
+from .test import Test
 
 async def setup(bot):
-    bot.add_cog(Tube(bot))
+    bot.add_cog(Test(bot))
