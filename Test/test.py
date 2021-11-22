@@ -40,7 +40,7 @@ class Test(commands.Cog):
         package_json = r.json()
         channel = self.bot.get_channel(901904896507392061)
 
-        list2 = json.loads(package_json)
+        #list2 = json.loads(package_json)
         for a in package_json:
             if a in list1:
                 await channel.send(f"tt{a}")
