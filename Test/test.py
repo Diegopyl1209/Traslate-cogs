@@ -83,7 +83,7 @@ class Test(commands.Cog):
         async def post_change(self):
             await ctx.send("TEST") # do stuff right after variable has changed
 
-
+wait()
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @test.command()
