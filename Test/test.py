@@ -48,7 +48,8 @@ class Test(commands.Cog):
         
         Setting the `publish` flag will cause new videos to be published to the specified channel. Using this on non-announcement channels may result in errors.
         """
-        json_list = json.load("gfnpc-es-ES.json")
+        f = open("gfnpc-es-ES.json")
+        json_list = json.load(f)
         r = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
         for a in json_list:
