@@ -19,7 +19,7 @@ from redbot.core.utils.chat_formatting import pagify
 
 
 gfn = []
-class gfn(commands.Cog):
+class Gfn(commands.Cog):
     """Jueves de Geforce now Cog"""
     def __init__(self, bot: bot.Red):
         self.bot = bot
@@ -56,23 +56,6 @@ class gfn(commands.Cog):
 
     def cog_unload(self):
         self.check_list.cancel()
-
-    @commands.group()
-    async def Gfn(self):
-        """por el momento nada"""
-        pass
-
-    @checks.admin_or_permissions(manage_guild=True)
-    @commands.guild_only()
-    @Gfn.command()
-    async def demo(self, ctx: commands.Context):
-        """tal ves envie el ultimo embed con los juegos
-        """
-        embed = "nada"
-        if not embed:
-            await ctx.send("Todavia no esta listo")
-        else:
-            await ctx.send("nada")
 
 
 
