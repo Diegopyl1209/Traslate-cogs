@@ -42,7 +42,7 @@ class Test(commands.Cog):
 
         json_data = eval(r.text)
 
-        await channel.send(json_data[0])
+        await channel.send(json_data["games"])
 
         #list2 = json.loads(package_json)
        # for a in package_json:
