@@ -45,7 +45,7 @@ class Test(commands.Cog):
             if a in list1:
                 pass
             else:
-                await channel.send(a)
+                await channel.send(f"tt{a}")
 
 
     def cog_unload(self):
