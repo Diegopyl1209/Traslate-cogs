@@ -33,7 +33,7 @@ class Gfn(commands.Cog):
     async def check_list(self):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
-        channel = self.config.guild(ctx.guild).channel()
+        channel = self.conf.guild(ctx.guild).channel()
 
         json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
@@ -73,4 +73,5 @@ class Gfn(commands.Cog):
         if not channelDiscord:
             await ctx.send("Debes enviar un canal de texto valido")
         else:
-            await self.config.guild(ctx.guild).channel.set(channelDiscord)
+            await self.conf.guild(ctx.guild).channel.set(channelDiscord)
+            await ctx.send("Listo")
