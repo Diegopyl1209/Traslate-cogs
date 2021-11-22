@@ -67,7 +67,7 @@ class Gfn(commands.Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @Gfn.command()
-    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False, guild: discord.Guild):
+    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
         if not channelDiscord:
