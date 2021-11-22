@@ -36,7 +36,7 @@ class Test(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def check_list(self, list1):
-        with urllib.request.urlopen("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/bf32706e2f7c43ca5206246fd3cb6bd2d3863960/gistfile1.txt") as url:
+        with urllib.request.urlopen("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/efbfb1f4505564c836133e4c026fb0afcfeffb6b/gistfile1.txt") as url:
             data1 = json.loads(url.read().decode())
         list2 = data1
         channel = self.bot.get_channel(901904896507392061)
