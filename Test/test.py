@@ -18,7 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = [**(Ubisoft Connect)**]
+gfn = ["**(Ubisoft Connect)**"]
 class Test(commands.Cog):
     """A YouTube subscription cog
     
