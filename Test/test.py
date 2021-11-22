@@ -52,8 +52,8 @@ class Test(commands.Cog):
         r = requests.get('https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json')
 
         for a in json_list:
-            if json_list[a]["id"] in r[a]["id"]:
-                await ctx.send("test")
+            if a <= 5:
+                await ctx.send("hola")
 
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
