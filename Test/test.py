@@ -18,7 +18,7 @@ from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
 
-gfn = [" **(Ubisoft Connect)**"]
+gfn = []
 class Gfn(commands.Cog):
     """Jueves de Geforce now Cog"""
     def __init__(self, bot: bot.Red):
@@ -64,10 +64,10 @@ class Gfn(commands.Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @Gfn.command()
-    async def demo(self, ctx: commands.Context, channelDiscord: Optional[discord.TextChannel] = None, publish: Optional[bool] = False):
+    async def demo(self, ctx: commands.Context):
         """Establece un canal en donde se enviaran los nuevos juegos de geforce now
         """
-        check_list()
+        await ctx.send(gfn)
 
 
 
