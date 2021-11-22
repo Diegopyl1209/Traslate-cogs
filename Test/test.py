@@ -35,11 +35,8 @@ class Test(commands.Cog):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
         channel = self.bot.get_channel(901904896507392061)
-
-
-        #json_data = eval(r.text).split("\n•")
+        
         json_data = r.json()
-        await channel.send(json_data["games"])
         embed=discord.Embed(title="Añadidos Geforce Now", description="")
         verify = False
 
