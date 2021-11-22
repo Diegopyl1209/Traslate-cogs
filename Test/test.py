@@ -5,7 +5,7 @@ import re
 import time
 import hashlib
 import logging
-import requests, json
+import urllib, requests, json
 
 import aiohttp
 import discord
@@ -17,7 +17,11 @@ from discord.ext import tasks
 from redbot.core import Config, bot, checks, commands
 from redbot.core.utils.chat_formatting import pagify
 
-list1 = requests.get("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/bf32706e2f7c43ca5206246fd3cb6bd2d3863960/gistfile1.txt")
+
+
+with urllib.request.urlopen("https://gist.githubusercontent.com/Diegopyl1209/e9c1678c77427c20f3585f44f42767c3/raw/bf32706e2f7c43ca5206246fd3cb6bd2d3863960/gistfile1.txt") as url:
+    data = json.loads(url.read().decode())
+list1 = data
 
 class Test(commands.Cog):
     """A YouTube subscription cog
@@ -34,7 +38,7 @@ class Test(commands.Cog):
     async def check_list(self, list1):
         list2 = requests.get("https://static.nvidiagrid.net/supported-public-game-list/locales/gfnpc-es-ES.json")
         channel = self.bot.get_channel(901904896507392061)
-        await channel.send(list2[10])
+        await channel.send(list1[10])
         if list1 != list2:
             for a in list2:
                 if list1[a]["id"] in list2[a]["id"]:
