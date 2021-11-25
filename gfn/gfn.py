@@ -27,7 +27,7 @@ class Gfn(commands.Cog):
         self.conf.register_guild(channel=[])
         self.check_list.start()
 
-    @tasks.loop(seconds=10)
+    @tasks.loop(seconds=500)
     async def check_list(self):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
@@ -49,7 +49,6 @@ class Gfn(commands.Cog):
 
         if verify == True:
             await channel.send(embed = embed)
-            return embed
         else:
             pass
 
