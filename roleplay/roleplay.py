@@ -181,7 +181,7 @@ class Roleplay(commands.Cog):
         footer = (
             f"{ctx.author.name} envio: {cuddle_to + 1} abrazos hasta ahora.\n"
             + f"{'I' if member == ctx.me else member.name} "
-            + f"recivio: {cuddle_from + 1} abrazos hasta ahora."
+            + f"recibio: {cuddle_from + 1} abrazos hasta ahora."
         )
         embed.set_footer(text=footer)
 
@@ -250,7 +250,7 @@ class Roleplay(commands.Cog):
         footer = (
             f"{ctx.author.name} envio: {h5_to + 1} high-fives hasta ahora.\n"
             + f"{'I' if member == ctx.me else member.name} "
-            + f"recivio: {h5_from + 1} high-fives hasta ahora."
+            + f"recibio: {h5_from + 1} high-fives hasta ahora."
         )
         embed.set_footer(text=footer)
 
@@ -285,7 +285,7 @@ class Roleplay(commands.Cog):
         footer = (
             f"{ctx.author.name} dio: {hug_to + 1} abrazos hasta ahora.\n"
             + f"{'I' if member == ctx.me else member.name} "
-            + f"recivio: {hug_from + 1} abrazos hasta ahora!"
+            + f"recibio: {hug_from + 1} abrazos hasta ahora!"
         )
         embed.set_footer(text=footer)
 
@@ -324,12 +324,11 @@ class Roleplay(commands.Cog):
         await ctx.send(content=quote(message), embed=embed)
 
     @commands.command()
-    @commands.is_nsfw()
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
     @commands.cooldown(1, 10, commands.BucketType.member)
     async def kiss(self, ctx: Context, *, member: discord.Member):
-        """[NSFW] ¡Besa a un usuario! Solo permitido en el canal NSFW."""
+        """ ¡Besa a un usuario!."""
         if member.id == ctx.author.id:
             return await ctx.send(
                 f"Poggers {bold(ctx.author.name)}, te acabas de besar! LOL!!! 💋"
@@ -352,7 +351,7 @@ class Roleplay(commands.Cog):
         embed.set_image(url=str(choice(KISS)))
         footer = (
             f"{ctx.author.name} envio: {kiss_to + 1} besos hasta ahora.\n"
-            + f"{member.name} recivio: {kiss_from + 1} besos hasta ahora!"
+            + f"{member.name} recibio: {kiss_from + 1} besos hasta ahora!"
         )
         embed.set_footer(text=footer)
 
@@ -421,7 +420,7 @@ class Roleplay(commands.Cog):
         embed.set_image(url=choice(BITE))
         footer = (
             f"{ctx.author.name} a mordido: {nom_to + 1} veces hasta ahora.\n"
-            + f"{member.name} recivio: {nom_from + 1} mordidas hasta ahora!"
+            + f"{member.name} recibio: {nom_from + 1} mordidas hasta ahora!"
         )
         embed.set_footer(text=footer)
 
@@ -455,7 +454,7 @@ class Roleplay(commands.Cog):
         footer = (
             f"{ctx.author.name} dio: {pat_to + 1} palmadas hasta ahora.\n"
             + f"{'I' if member == ctx.me else member.name} "
-            + f"recivio: {pat_from + 1} palmadas hasta ahora!"
+            + f"recibio: {pat_from + 1} palmadas hasta ahora!"
         )
         embed.set_footer(text=footer)
 
@@ -531,7 +530,7 @@ class Roleplay(commands.Cog):
         embed.set_image(url=choice(PUNCH))
         footer = (
             f"{ctx.author.name} envio: {punch_to + 1} golpes hasta ahora.\n"
-            + f"{member.name} recivio: {punch_from + 1} golpes hasta ahora!"
+            + f"{member.name} recibio: {punch_from + 1} golpes hasta ahora!"
         )
         embed.set_footer(text=footer)
 
