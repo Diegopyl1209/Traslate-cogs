@@ -27,7 +27,7 @@ class Gfn(commands.Cog):
         self.conf.register_guild(channel=[])
         self.check_list.start()
 
-    @tasks.loop(seconds=500)
+    @tasks.loop(seconds=60)
     async def check_list(self):
         r = requests.get("https://api-geforce-now-thursday.herokuapp.com/")
         
