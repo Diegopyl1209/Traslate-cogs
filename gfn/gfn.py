@@ -34,7 +34,7 @@ class Gfn(commands.Cog):
         channel_id = 743921141864988743
         channel = self.bot.get_channel(channel_id)  
 
-        json_data = await r.json()
+        json_data = r.json()
         embed=discord.Embed(title="Añadidos Geforce Now", description="", color=discord.Color.green())
         embed.set_thumbnail(url="https://www.apkmirror.com/wp-content/uploads/2020/09/36/5f626fb02b86b.png")
         verify = False
