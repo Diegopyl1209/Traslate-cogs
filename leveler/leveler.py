@@ -1722,12 +1722,13 @@ class Leveler(commands.Cog):
     @badge.command(name="set")
     @commands.guild_only()
     async def set_badge(self, ctx, name: str, priority_num: int):
-      """Establecer una insignia para el perfil.
+        """Establecer una insignia para el perfil.
 
         Opciones para el número de prioridad:
         `-1`: La insignia será invisible.
         `0`: la insignia no se mostrará en su perfil.
         Máximo a `5000`."""
+
         user = ctx.author
         server = ctx.guild
         await self._create_user(user, server)
