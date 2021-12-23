@@ -1961,9 +1961,9 @@ class Leveler(commands.Cog):
     @badge.command()
     @commands.guild_only()
     async def give(self, ctx, user: discord.Member, name: str):
-"""Darle a un usuario una insignia con un nombre determinado
+        """Darle a un usuario una insignia con un nombre determinado
 
-    Indique el usuario y el nombre del badge. """
+        Indique el usuario y el nombre del badge. """
         org_user = ctx.message.author
         server = ctx.guild
         # creates user if doesn't exist
@@ -2047,7 +2047,7 @@ class Leveler(commands.Cog):
     @badge.command(name="link")
     @commands.guild_only()
     async def linkbadge(self, ctx, badge_name: str, level: int):
-    """Asociar una insignia con un nivel.
+        """Asociar una insignia con un nivel.
 
         Indique el nombre de la insignia y el nivel. """
         server = ctx.guild
