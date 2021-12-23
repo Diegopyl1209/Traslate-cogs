@@ -1776,7 +1776,7 @@ class Leveler(commands.Cog):
         *,
         description: str,
     ):
-                """Agrega una insignia.
+        """Agrega una insignia.
 
         Opciones:
         `nombre`: Indique el nombre de la placa. Si la insignia tiene espacio, use comillas.
