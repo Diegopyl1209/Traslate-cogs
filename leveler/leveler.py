@@ -3530,6 +3530,7 @@ class Leveler(commands.Cog):
                 async with channel.typing():
                     levelup = await self.draw_levelup(user, server)
                     file = discord.File(levelup, filename="levelup.png")
+                    channel = bot.get_channel(896579061764210719)
                     await channel.send(
                         "**{} acaba de ganar un nivel{}!**".format(name, server_identifier),
                         file=file,
