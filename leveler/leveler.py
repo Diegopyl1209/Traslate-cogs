@@ -3524,6 +3524,7 @@ class Leveler(commands.Cog):
                         ),
                         colour=user.colour,
                     )
+                    channel = bot.get_channel(896579061764210719)
                     await channel.send(embed=em)
             else:
                 async with channel.typing():
