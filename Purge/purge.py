@@ -1,5 +1,6 @@
 import discord
 
+import typing
 from datetime import 
 from discord.ext import tasks
 from redbot.core import Config, bot, checks, commands
@@ -16,17 +17,8 @@ class Purge(commands.Cog):
         
     @commands.command()
     @commands.guild_only()
-    @commands.bot_has_permissions(embed_links=True)
-    async def cog_check(self, ctx):
-        return self.client.user_is_admin(ctx.author)
-
-    # ----------------------------------------------
-    # Function Group to clear channel of messages
-    # ----------------------------------------------
-    @commands.command(
-        name='purge',
-        hidden=True,
-    )
+    @commands.admin_or_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
     async def purge(
         self, ctx,
         num_messages: int,
@@ -37,10 +29,10 @@ class Purge(commands.Cog):
         await channel.purge(limit=num_messages)
         return True
 
-    @commands.command(
-        name='purge_until',
-        hidden=True,
-    )
+    @commands.command()
+    @commands.guild_only()
+    @commands.admin_or_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
     async def purge_until(
         self, ctx,
         message_id: int,
@@ -56,12 +48,11 @@ class Purge(commands.Cog):
         await ctx.message.delete()
         await channel.purge(after=message)
         return True
-
-    @commands.command(
-        name='purge_user',
-        hidden=True,
-        aliases=['purgeuser'],
-    )
+    
+    @commands.command()
+    @commands.guild_only()
+    @commands.admin_or_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
     async def purge_user(
         self, ctx,
         user: User,
