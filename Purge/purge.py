@@ -12,8 +12,6 @@ class Purge(commands.Cog):
     """Comando Purge"""
     def __init__(self, bot: bot.Red):
         self.bot = bot
-        self.conf = Config.get_conf(self, identifier=1234000072890, force_registration=True)
-        self.conf.register_guild(channel=[])
         
     @commands.command()
     @commands.guild_only()
