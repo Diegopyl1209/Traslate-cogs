@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .purge import purge
+from .purge import Purge
 
 async def setup(bot):
     bot.add_cog(purge(bot))
