@@ -1,0 +1,13 @@
+{
+    "author" : ["Diegopyl1209"],
+    "install_msg" : "Cog para eliminar mensajes!",
+    "name" : "purge",
+    "short" : "purge",
+    "description" : "sss.",
+    "required_cogs": {},
+    "requirements": [],
+    "min_bot_version": "3.1.8",
+    "max_bot_version": "0.0.0",
+    "tags": [],
+    "type": "COG"
+}
